@@ -69,7 +69,7 @@ public abstract class Base${type.name}Index${generics} extends BaseHash implemen
     /**
      * Returns the key at the given entry.
      *
-     * @throws IndexOutOfBounds if the entry is outside the bounds of the underlying array
+     * @throws IndexOutOfBoundsException if the entry is outside the bounds of the underlying array
      */
     @Override
     public ${type.javaType} getKeyAt(final int entry) {
@@ -93,6 +93,8 @@ public abstract class Base${type.name}Index${generics} extends BaseHash implemen
 
     /**
      * Removes the key at the given entry.
+     *
+     * @throws IndexOutOfBoundsException if the entry is outside the bounds of the underlying array
      */
     @Override
     public void removeAt(final int entry) {

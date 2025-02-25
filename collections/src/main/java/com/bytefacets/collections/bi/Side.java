@@ -7,7 +7,7 @@ import static com.bytefacets.collections.bi.CompactOneToMany.UNSET;
 import com.bytefacets.collections.arrays.IntArray;
 import com.bytefacets.collections.functional.IntIterator;
 
-final class Side {
+public final class Side {
     private int[] heads;
     private int[] nexts;
     private int[] prevs;

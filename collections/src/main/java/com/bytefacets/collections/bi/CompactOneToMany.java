@@ -24,6 +24,7 @@ public class CompactOneToMany {
         this(16, 16, true);
     }
 
+    @SuppressWarnings("this-escape")
     public CompactOneToMany(
             final int initialLefts, final int initialMappingCapacity, final boolean includeCounts) {
         this.mappings = new LongIndexedSet(initialMappingCapacity);

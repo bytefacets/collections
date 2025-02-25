@@ -5,5 +5,5 @@ package com.bytefacets.collections.functional;
 
 /** Functional interface for ${type.javaType}. */
 public interface ${type.name}Iterable${generics} {
-    void forEach(final ${type.name}Consumer${generics} action);
+    void forEach(${type.name}Consumer${generics} action);
 }

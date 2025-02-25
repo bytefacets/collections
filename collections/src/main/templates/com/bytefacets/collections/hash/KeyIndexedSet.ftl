@@ -4,7 +4,7 @@
 package com.bytefacets.collections.hash;
 
 /**
- * This is a generated class. Changes to the class should be made on the template and the generator re-run.
+ * An indexed set of ${type.javaType}
  */
 public class ${type.name}IndexedSet${generics} extends Base${type.name}Index${generics} {
     public ${type.name}IndexedSet(int initialCapacity) {
@@ -15,6 +15,7 @@ public class ${type.name}IndexedSet${generics} extends Base${type.name}Index${ge
         super(initialCapacity, loadFactor);
     }
 
+    /** Copies the contents from the given source set into this set. */
     public void copyFrom(${type.name}IndexedSet${generics} sourceSet) {
         super.copyFrom(sourceSet);
     }
