@@ -1,4 +1,6 @@
 <#ftl strip_whitespace=true>
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 <#assign typeClass = "${type.name}Type">
 <#assign arrayClass = "${type.name}Array">
 package com.bytefacets.collections.store;
@@ -6,7 +8,7 @@ package com.bytefacets.collections.store;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-<#if !type.isGeneric()>import com.bytefacets.collections.types.${typeClass};</#if>
+<#if !type.generic>import com.bytefacets.collections.types.${typeClass};</#if>
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -14,7 +16,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 class ${type.name}ChunkMatrixStoreTest {
     private static final int CHUNK_SIZE = 16;
     private static final int NUM_FIELDS = 3;
-<#if type.isGeneric()>
+<#if type.generic>
     private final ${type.name}ChunkMatrixStore<String> store = new ${type.name}ChunkMatrixStore<>(5, CHUNK_SIZE, NUM_FIELDS);
     private void set(final int index, final int field, final String value) {
         store.set${type.name}(index, field, value);

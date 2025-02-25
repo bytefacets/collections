@@ -1,13 +1,15 @@
+<#ftl strip_whitespace=true>
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections.hash;
 
 import com.bytefacets.collections.arrays.*;
+import com.bytefacets.collections.functional.${value.name}Consumer;
 import com.bytefacets.collections.exception.KeyNotFoundException;
 import com.bytefacets.collections.types.*;
 
 /**
- * A hash map associating keys and values.
- *
- * This is a generated class. Changes to the class should be made on the template and the generator re-run.
+ * A hash map associating ${key.javaType} keys and ${value.javaType} values.
  */
 <#if generics != "">@SuppressWarnings("unchecked")</#if>
 public class ${key.name}${value.name}IndexedMap${generics} extends Base${key.name}Index${key.declaration}{
@@ -33,9 +35,7 @@ public class ${key.name}${value.name}IndexedMap${generics} extends Base${key.nam
         return entry;
     }
 
-    /**
-     * Copies the contents of another map into this map.
-     */
+    /** Copies the contents of another map into this map. */
     public void copyFrom(final ${key.name}${value.name}IndexedMap${generics} source) {
         super.copyFrom(source);
 
@@ -99,25 +99,22 @@ public class ${key.name}${value.name}IndexedMap${generics} extends Base${key.nam
     }
 
     /**
-     * Collects the values of the map into a target array. It returns an array in the event
-     * that the parameter is null or too small to fit the all the values in the map. There
-     * is no guaranteed order.
+     * Iterates the values of the map passing them into a consumer. There is no guaranteed order.
      */
-    public ${value.javaType}[] collectValues(${value.javaType}[] target) {
-        if(target == null || target.length < size) {
-            target = ${value.name}Array.create(size);
+    public void forEachValue(final ${value.name}Consumer${value.declaration} consumer) {
+        if (size == 0) {
+            return;
         }
-
-        int ptr = 0;
-        for(int head = 0; head < heads.length && ptr < size; head++) {
-            if(heads[head] < 0) {
-                continue;
-            }
-            for(int e = heads[head]; e >= 0; e = nexts[ e ]) {
-                target[ptr++] = ${value.cast}values[e];
+        int hits = 0;
+        final int expectedHits = size;
+        for (int head = 0; head < heads.length && hits < expectedHits; head++) {
+            for (int e = heads[head]; e >= 0; ) {
+                final int next = nexts[e]; // pull out next in case the function removes the entry
+                hits++;
+                consumer.accept(${value.cast}values[e]);
+                e = next;
             }
         }
-        return target;
     }
 
     /**

@@ -1,17 +1,17 @@
 <#ftl strip_whitespace=true>
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections;
 
 import com.bytefacets.collections.functional.${type.name}Iterable;
 import com.bytefacets.collections.functional.${type.name}Consumer;
 
-public interface ${type.name}KeyedCollection${generics} extends ${type.name}Iterable${generics} {
+public interface ${type.name}IndexedCollection${generics} extends ${type.name}Iterable${generics} {
+    /** Consume each entry in the collection. */
     void forEachEntry(com.bytefacets.collections.functional.IntConsumer consumer);
 
+    /** Consume each ${type.javaType} key in the collection. */
     void forEach(${type.name}Consumer${generics} consumer);
-
-    int[] collectEntries(int[] target);
-
-    ${type.javaType}[] collectKeys(${type.javaType}[] target);
 
     int lookupEntry(${type.javaType} key);
 

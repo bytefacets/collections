@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections.bi;
 
 import static com.bytefacets.collections.bi.CompactOneToMany.UNSET;
@@ -5,7 +7,7 @@ import static com.bytefacets.collections.bi.CompactOneToMany.UNSET;
 import com.bytefacets.collections.arrays.IntArray;
 import com.bytefacets.collections.functional.IntIterator;
 
-public final class Side {
+final class Side {
     private int[] heads;
     private int[] nexts;
     private int[] prevs;

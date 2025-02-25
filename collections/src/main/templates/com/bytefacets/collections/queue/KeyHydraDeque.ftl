@@ -1,3 +1,6 @@
+<#ftl strip_whitespace=true>
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections.queue;
 
 import com.bytefacets.collections.NumUtils;
@@ -13,7 +16,9 @@ import static com.bytefacets.collections.exception.InvalidEntryException.invalid
 import static com.bytefacets.collections.CapacityCalculator.calculateNewCapacity;
 
 /**
- * This is a generated class. Changes to the class should be made on the template and the generator re-run.
+ * A multi-headed deque. This structure uses compact ids to reference separate deques which
+ * all share the underlying storage. "Compact" here means that it's best of the ids
+ * start at zero and increment monotonically.
  */
 <#if type.generic>@SuppressWarnings("unchecked")</#if>
 public final class ${type.name}HydraDeque${generics} {
@@ -67,6 +72,7 @@ public final class ${type.name}HydraDeque${generics} {
         return entry;
     }
 
+    /** Adds the value to the head of the given listId. */
     public int addFirst(final int listId, final ${type.javaType} value) {
         ensureList(listId);
         final int oldHead = heads[listId];
@@ -86,6 +92,7 @@ public final class ${type.name}HydraDeque${generics} {
         return entry;
     }
 
+    /** Adds the value to the tail of the given listId. */
     public int addLast(final int listId, final ${type.javaType} value) {
         ensureList(listId);
         final int oldTail = tails[listId];
@@ -119,6 +126,11 @@ public final class ${type.name}HydraDeque${generics} {
         return count[listId];
     }
 
+    /**
+     * Removes the value at the head of the given listId.
+     *
+     * @throws NoSuchElementException if the deque is empty or the id is out of bounds
+     */
     public ${type.javaType} removeFirst(final int listId) {
         final int entry = validateListAndGetFirstEntry(listId, heads);
         heads[listId] = nexts[entry];
@@ -139,6 +151,11 @@ public final class ${type.name}HydraDeque${generics} {
         return value;
     }
 
+    /**
+     * Removes the value at the tail of the given listId.
+     *
+     * @throws NoSuchElementException if the deque is empty or the id is out of bounds
+     */
     public ${type.javaType} removeLast(final int listId) {
         final int entry = validateListAndGetFirstEntry(listId, tails);
         tails[listId] = prevs[entry];
@@ -160,10 +177,12 @@ public final class ${type.name}HydraDeque${generics} {
         return value;
     }
 
+    /** Whether this collection has any values in it. */
     public boolean isEmpty() {
         return size == 0;
     }
 
+    /** Clears all state within the collection. */
     public void clear() {
         IntArray.fill(heads, -1);
         IntArray.fill(tails, -1);
@@ -175,20 +194,32 @@ public final class ${type.name}HydraDeque${generics} {
         size = 0;
     }
 
+    /** Creates an iterator over the given list id. */
     public ${type.name}Iterator${generics} iterator(final int listId) {
         return iterator(listId, null);
     }
 
+    /**
+     * Returns an iterator over the given list id, reusing the given iterator if it's non-null.
+     * The iterator must be one that has come from this collection, such as one returned by
+     * this method previously.
+     */
     public ${type.name}Iterator${generics} iterator(final int listId, final ${type.name}Iterator${generics} iterator) {
         final ${type.name}Iterator${generics} localIterator = iterator != null ? iterator : new ForwardIterator${generics}();
         ((ForwardIterator${generics})localIterator).reset(listId);
         return localIterator;
     }
 
+    /** Creates a reverse iterator over the given list id. */
     public ${type.name}Iterator${generics} reverseIterator(final int listId) {
         return reverseIterator(listId, null);
     }
 
+    /**
+     * Returns a reverse iterator over the given list id, reusing the given iterator if it's non-null.
+     * The iterator must be one that has come from this collection, such as one returned by
+     * this method previously.
+     */
     public ${type.name}Iterator${generics} reverseIterator(final int listId, final ${type.name}Iterator${generics} iterator) {
         final ${type.name}Iterator${generics} localIterator = iterator != null ? iterator : new ReverseIterator${generics}();
         ((ReverseIterator${generics})localIterator).reset(listId);
@@ -197,14 +228,14 @@ public final class ${type.name}HydraDeque${generics} {
 
     private int validateListAndGetFirstEntry(final int listId, final int[] start) {
         if(size == 0) {
-            throw new NoSuchElementException("Queue is empty");
+            throw new NoSuchElementException("Deque is empty");
         }
         if(listId < 0 || listId >= heads.length) {
-            throw new NoSuchElementException("Invalid List: " + listId);
+            throw new NoSuchElementException("Invalid Deque: " + listId);
         }
         final int entry = start[listId];
         if(entry < 0) {
-            throw new NoSuchElementException(String.format("List %d is empty (entry=%d)", listId, entry));
+            throw new NoSuchElementException(String.format("Deque %d is empty (entry=%d)", listId, entry));
         }
         return entry;
     }

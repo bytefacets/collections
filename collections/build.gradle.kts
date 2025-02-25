@@ -6,7 +6,7 @@ plugins {
 template_processor {
     main {
         excludedFiles.set(listOf(
-            "BoolKeyedCollection.java",
+            "BoolIndexedCollection.java",
             "BaseBoolHeap.java",
             "BaseBoolIndex.java",
             "BoolIndexedSet.java"))

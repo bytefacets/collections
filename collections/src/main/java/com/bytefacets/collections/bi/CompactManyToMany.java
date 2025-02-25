@@ -1,5 +1,14 @@
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections.bi;
 
+/**
+ * A collection which can hold and access integer associations in n-n relationships. It is called
+ * "Compact" because the integers should be 0-based as the integer values are used as array offsets
+ * internally for performance and memory reasons. If your domain values are not compact, they can be
+ * made compact by first performing a range transformation using an {@link
+ * com.bytefacets.collections.hash.IntIndexedSet IntIndexedSet}.
+ */
 public final class CompactManyToMany extends CompactOneToMany {
     private final Side right;
     private final Mapping rightMapping;
@@ -28,8 +37,13 @@ public final class CompactManyToMany extends CompactOneToMany {
         right.removeEntry(rightKey, entry);
     }
 
-    public Mapping withRight(final int leftKey) {
-        rightMapping.resetKey(leftKey);
+    /**
+     * Fluent-style method returning an object to access associations for the given rightKey. The
+     * Mapping that is returned is singular for interacting with rights in this collection. In other
+     * words, the Mapping returned is reused for every call of withRight on this collection.
+     */
+    public Mapping withRight(final int rightKey) {
+        rightMapping.resetKey(rightKey);
         return rightMapping;
     }
 }

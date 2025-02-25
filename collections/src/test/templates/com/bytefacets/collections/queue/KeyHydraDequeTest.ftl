@@ -1,3 +1,6 @@
+<#ftl strip_whitespace=true>
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections.queue;
 
 import com.bytefacets.collections.types.${type.name}Type;

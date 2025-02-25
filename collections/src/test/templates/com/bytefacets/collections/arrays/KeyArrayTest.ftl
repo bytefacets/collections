@@ -1,4 +1,6 @@
 <#ftl strip_whitespace=true>
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 <#assign typeClass = "${type.name}Type">
 <#assign arrayClass = "${type.name}Array">
 package com.bytefacets.collections.arrays;

@@ -1,3 +1,6 @@
+<#ftl strip_whitespace=true>
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections.queue;
 
 import com.bytefacets.collections.NumUtils;
@@ -12,7 +15,7 @@ import static com.bytefacets.collections.exception.ResizeException.cannotResize;
 import static com.bytefacets.collections.CapacityCalculator.calculateNewCapacity;
 
 /**
- * This is a generated class. Changes to the class should be made on the template and the generator re-run.
+ * A deque for ${type.javaType} values.
  */
 <#if type.generic>@SuppressWarnings("unchecked")</#if>
 public final class ${type.name}Deque${generics} implements ${type.name}Iterable${generics} {
@@ -28,6 +31,7 @@ public final class ${type.name}Deque${generics} implements ${type.name}Iterable$
         values = ${type.name}Array.create(NumUtils.nextPowerOf2(initialCapacity));
     }
 
+    /** Iterates the contents of the deque from the head to the tail. */
     @Override
     public void forEach(final ${type.name}Consumer${generics} consumer) {
         int pos = head;
@@ -37,6 +41,7 @@ public final class ${type.name}Deque${generics} implements ${type.name}Iterable$
         }
     }
 
+    /** Adds the value to the front of the deque. */
     public void addFirst(final ${type.javaType} value) {
         values[head = dec(head, values.length)] = value;
         size++;
@@ -45,6 +50,7 @@ public final class ${type.name}Deque${generics} implements ${type.name}Iterable$
         }
     }
 
+    /** Adds the value to the back of the deque. */
     public void addLast(final ${type.javaType} value) {
         values[tail] = value;
         size++;
@@ -53,13 +59,19 @@ public final class ${type.name}Deque${generics} implements ${type.name}Iterable$
         }
     }
 
+    /** Current size of the deque. */
     public int size() {
         return size;
     }
 
+    /**
+     * Removes a value from the head of the deque.
+     *
+     * @throws NoSuchElementException if the deque is empty
+     */
     public ${type.javaType} removeFirst() {
         if(size == 0) {
-            throw new NoSuchElementException("Queue is empty");
+            throw new NoSuchElementException("Deque is empty");
         }
         final ${type.javaType} value = ${type.cast}values[head];
         values[head] = ${type.name}Type.DEFAULT;;
@@ -68,9 +80,14 @@ public final class ${type.name}Deque${generics} implements ${type.name}Iterable$
         return value;
     }
 
+    /**
+     * Removes a value from the tail of the deque.
+     *
+     * @throws NoSuchElementException if the deque is empty
+     */
     public ${type.javaType} removeLast() {
         if(size == 0) {
-            throw new NoSuchElementException("Queue is empty");
+            throw new NoSuchElementException("Deque is empty");
         }
         tail = dec(tail, values.length);
         final ${type.javaType} value = ${type.cast}values[tail];
@@ -79,24 +96,36 @@ public final class ${type.name}Deque${generics} implements ${type.name}Iterable$
         return value;
     }
 
+    /**
+     * Returns the head of the deque without removing it.
+     *
+     * @throws NoSuchElementException if the deque is empty
+     */
     public ${type.javaType} peekFirst() {
         if(size == 0) {
-             throw new NoSuchElementException("Queue is empty");
+             throw new NoSuchElementException("Deque is empty");
         }
         return ${type.cast}values[head];
     }
 
+    /**
+     * Returns the tail of the deque without removing it.
+     *
+     * @throws NoSuchElementException if the deque is empty
+     */
     public ${type.javaType} peekLast() {
         if(size == 0) {
-             throw new NoSuchElementException("Queue is empty");
+             throw new NoSuchElementException("Deque is empty");
         }
         return ${type.cast}values[dec(tail, values.length)];
     }
 
+    /** Whether the deque has anything in it. */
     public boolean isEmpty() {
         return size == 0;
     }
 
+    /** Clears the contents of the deque. */
     public void clear() {
         <#if type.name == "Generic" || type.name == "String">
         if(head > tail) {

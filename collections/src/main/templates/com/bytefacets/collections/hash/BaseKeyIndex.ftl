@@ -1,15 +1,18 @@
+<#ftl strip_whitespace=true>
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections.hash;
 
-import com.bytefacets.collections.${type.name}KeyedCollection;
+import com.bytefacets.collections.${type.name}IndexedCollection;
 import com.bytefacets.collections.arrays.*;
 import com.bytefacets.collections.functional.${type.name}Consumer;
 import com.bytefacets.collections.types.*;
 
 /**
- * This is a generated class. Changes to the class should be made on the template and the generator re-run.
+ * Base class for an Indexed collection
  */
-<#if type.isGeneric()>@SuppressWarnings("unchecked")</#if>
-public abstract class Base${type.name}Index${generics} extends BaseHash implements ${type.name}KeyedCollection${generics} {
+<#if type.generic>@SuppressWarnings("unchecked")</#if>
+public abstract class Base${type.name}Index${generics} extends BaseHash implements ${type.name}IndexedCollection${generics} {
     private ${type.name}Type.Hash hashFunc  = ${type.name}Type.HashImpl;
     private ${type.name}Type.Eq   equalFunc = ${type.name}Type.EqImpl;
     private ${type.arrayType}[] keys;
@@ -37,35 +40,19 @@ public abstract class Base${type.name}Index${generics} extends BaseHash implemen
 
     @Override
     public void forEach(final ${type.name}Consumer${generics} consumer) {
-        int count = 0;
-        for(int head = 0; head < heads.length && count < size; head++) {
-            if(heads[head] < 0) continue;
-            for(int e = heads[head]; e >= 0; e = nexts[e]) {
+        if (size == 0) {
+            return;
+        }
+        int hits = 0;
+        final int expectedHits = size;
+        for (int head = 0; head < heads.length && hits < expectedHits; head++) {
+            for (int e = heads[head]; e >= 0; ) {
+                final int next = nexts[e]; // pull out next in case the function removes the entry
+                hits++;
                 consumer.accept(${type.cast}keys[e]);
-                count++;
+                e = next;
             }
         }
-    }
-
-    /**
-     * Collects the keys into a provided target array. The method may create a new array if
-     * the provided one is null or too small to accommodate the size of the collection.
-     */
-    @Override
-    public ${type.javaType}[] collectKeys(${type.javaType}[] target) {
-        if(target == null || target.length < size) {
-            target = ${type.name}Array.create(size);
-        }
-
-        int ptr = 0;
-        for(int head = 0; head < heads.length && ptr < size; head++) {
-            if(heads[head] < 0) continue;
-            for(int e = heads[head]; e >= 0; e = nexts[e]) {
-                target[ptr++] = ${type.cast}keys[e];
-            }
-        }
-
-        return target;
     }
 
     @Override
@@ -79,21 +66,34 @@ public abstract class Base${type.name}Index${generics} extends BaseHash implemen
         return -1;
     }
 
+    /**
+     * Returns the key at the given entry.
+     *
+     * @throws IndexOutOfBounds if the entry is outside the bounds of the underlying array
+     */
     @Override
     public ${type.javaType} getKeyAt(final int entry) {
         return ${type.cast}keys[entry];
     }
 
+    /** Whether the key exists in the collection. */
     @Override
     public boolean containsKey(final ${type.javaType} key) {
         return lookupEntry(key) != -1;
     }
 
+    /**
+     * Removes the key from the collection, returning the entry that was freed, or -1 if the key
+     * was not found.
+     */
     @Override
     public int remove(final ${type.javaType} key) {
         return remove(key, true);
     }
 
+    /**
+     * Removes the key at the given entry.
+     */
     @Override
     public void removeAt(final int entry) {
         final int head = getHead(entry);
@@ -123,7 +123,7 @@ public abstract class Base${type.name}Index${generics} extends BaseHash implemen
      * useful in compound operations where you might process the key again, or just encounter a new
      * key, but don't want to re-allocate the entry. Once you're ready to allow the reallocation
      * of the entry, use the freeReservedEntry method. If you don't free the reserved entry later,
-     * the set will never use the entry again.
+     * the set will never use the entry again, and result in a memory leek.
      */
     public void removeAtAndReserve(final int entry) {
         remove(${type.cast}keys[entry], false);
@@ -132,7 +132,8 @@ public abstract class Base${type.name}Index${generics} extends BaseHash implemen
     /**
      * Used in combination with the removeAtAndReserve method, this clears the key and value
      * at the reserved entry and puts the entry back on the free list. This does not check
-     * whether or not you first reserved the entry.
+     * whether or not you first reserved the entry. Calling this with active entries can corrupt
+     * the collection.
      */
     public void freeReservedEntry(final int entry) {
         nexts[entry] = freeList;
@@ -176,6 +177,10 @@ public abstract class Base${type.name}Index${generics} extends BaseHash implemen
         return -1;
     }
 
+    /**
+     * Adds the key to the collection if it's not yet in the collection and returns the
+     * stable entry assigned to the key.
+     */
     public int add(final ${type.javaType} key) {
         int head = computeHead(key);
         for(int e = heads[head]; e >= 0; e = nexts[e]) {

@@ -1,3 +1,6 @@
+<#ftl strip_whitespace=true>
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections.heap;
 
 import com.bytefacets.collections.arrays.${key.name}Array;
@@ -21,9 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
-/**
- * This is a generated class. Changes to the class should be made on the template and the generator re-run.
- */
 <#if generics != "">@SuppressWarnings("unchecked")</#if>
 class ${key.name}${value.name}HeapTest {
     private ${key.name}${value.name}Heap${instanceGenerics} heap;

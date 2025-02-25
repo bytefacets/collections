@@ -1,8 +1,10 @@
 <#ftl strip_whitespace=true>
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections.store;
 
-public interface ${type.name}MatrixStore<#if type.isGeneric()><T></#if> {
-<#if type.isGeneric()>
+public interface ${type.name}MatrixStore<#if type.generic><T></#if> {
+<#if type.generic>
     T getGeneric(int row, int field);
 
     void setGeneric(int row, int field, T value);

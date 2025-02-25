@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections.hash;
 
 import com.bytefacets.collections.CapacityCalculator;
@@ -6,7 +8,6 @@ import com.bytefacets.collections.NumUtils;
 import com.bytefacets.collections.arrays.IntArray;
 import com.bytefacets.collections.functional.IntConsumer;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 
@@ -54,21 +55,6 @@ public abstract class BaseHash {
 
     public boolean isEmpty() {
         return size == 0;
-    }
-
-    @SuppressWarnings("FinalParameters")
-    public int[] collectEntries(int[] target) {
-        if (target == null || target.length < size) {
-            target = IntArray.create(size);
-        }
-
-        int ptr = 0;
-        for (int head = 0; head < heads.length && ptr < size; head++) {
-            for (int e = heads[head]; e >= 0; e = nexts[e]) {
-                target[ptr++] = e;
-            }
-        }
-        return target;
     }
 
     protected void calculateNewCapacity() {

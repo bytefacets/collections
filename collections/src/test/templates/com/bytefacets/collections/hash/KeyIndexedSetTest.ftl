@@ -1,3 +1,6 @@
+<#ftl strip_whitespace=true>
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections.hash;
 
 import com.bytefacets.collections.EntryIterator;
@@ -5,19 +8,17 @@ import com.bytefacets.collections.types.${type.name}Type;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * This is a generated class. Changes to the class should be made on the template and the generator re-run.
- */
 <#if type.generic>@SuppressWarnings("unchecked")</#if>
-public class ${type.name}IndexedSetTest
-{
+class ${type.name}IndexedSetTest {
     private ${type.name}IndexedSet${instanceGenerics} set = new ${type.name}IndexedSet${instanceGenerics}(16);
     private Set<Object> expected = new HashSet<>();
 
@@ -136,9 +137,10 @@ public class ${type.name}IndexedSetTest
         assertEquals(0, copy2.size());
 
         Set<Object> copy3 = new HashSet<>(expected);
-        ${type.arrayType}[] result = set.collectKeys(new ${type.arrayType}[1]);
+        List<Object> result = new ArrayList<>(copy3.size());
+        set.forEach(result::add);
         for(int i = 0, len = set.size(); i < len; i++) {
-            assertTrue(copy3.remove(result[i]));
+            assertTrue(copy3.remove(result.get(i)));
         }
         assertEquals(0, copy3.size());
     }

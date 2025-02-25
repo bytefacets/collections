@@ -1,4 +1,6 @@
 <#ftl strip_whitespace=true>
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections.store;
 
 import com.bytefacets.collections.NumUtils;
@@ -7,7 +9,7 @@ import com.bytefacets.collections.types.${type.name}Type;
 
 import java.util.Arrays;
 
-public final class ${type.name}ChunkStore<#if type.isGeneric()><T></#if> implements ${type.name}Store<#if type.isGeneric()><T></#if> {
+public final class ${type.name}ChunkStore${generics} implements ${type.name}Store${generics} {
     private final int chunkSize;
     private final int chunkMask;
     private final int shift;
@@ -24,15 +26,15 @@ public final class ${type.name}ChunkStore<#if type.isGeneric()><T></#if> impleme
         this.capacity = chunks.length * this.chunkSize;
     }
 
-    <#if type.isGeneric()>@SuppressWarnings("unchecked")</#if>
+    <#if type.generic>@SuppressWarnings("unchecked")</#if>
     @Override
     public ${type.javaType} get${type.name}(final int index) {
         if(index >= capacity) {
-            return <#if type.isGeneric()>(T)</#if>${type.name}Type.DEFAULT;
+            return <#if type.generic>(T)</#if>${type.name}Type.DEFAULT;
         }
         final int offset = index & chunkMask;
         final int chunk = index >> shift;
-        return <#if type.isGeneric()>(T)</#if>chunks[chunk][offset];
+        return <#if type.generic>(T)</#if>chunks[chunk][offset];
     }
 
     @Override

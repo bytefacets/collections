@@ -1,3 +1,6 @@
+<#ftl strip_whitespace=true>
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections.heap;
 
 import com.bytefacets.collections.arrays.IntArray;
@@ -8,22 +11,30 @@ import com.bytefacets.collections.types.${key.name}Type;
 import com.bytefacets.collections.types.${value.name}Type;
 
 /**
- * This is a generated class. Changes to the class should be made on the template and the generator re-run.
+ * An indexed heap map, which allows for associating a value with an entry in a heap. This can
+ * useful for things like timers where you might associate some callback (the value) with a
+ * firing time (the key).
  */
 <#if key.generic || value.generic>@SuppressWarnings("unchecked")</#if>
 public class ${key.name}${value.name}Heap${generics} extends Base${key.name}Heap${key.declaration} {
     private ${value.arrayType} defaultValue = ${value.cast}${value.name}Type.DEFAULT;
     private ${value.arrayType}[] values;
 
-    public ${key.name}${value.name}Heap(int initialCapacity) {
+    public ${key.name}${value.name}Heap(final int initialCapacity) {
         super(initialCapacity);
         values = ${value.name}Array.create(initialCapacity, defaultValue);
     }
 
+    /** The current default value. */
     public ${value.javaType} getDefaultValue() {
         return ${value.cast}defaultValue;
     }
 
+    /**
+     * Sets a default value on the heap, but can only be called when the heap is empty.
+     *
+     * @throws UnsupportedOperationException if the heap has anything in it already
+     */
     public void setDefaultValue(final ${value.javaType} defaultValue) {
         if(size > 0) {
             throw new RuntimeException("SetDefaultValue("+defaultValue+"): collection is not empty ("+getSize()+")" );
@@ -34,22 +45,38 @@ public class ${key.name}${value.name}Heap${generics} extends Base${key.name}Heap
         }
     }
 
+    /** Inserts the key into the heap and associates the value with the key's entry. */
     public int insert(final ${key.javaType} key, final ${value.javaType} value) {
-        int entry = insert(key);
+        final int entry = insert(key);
         values[entry] = value;
         return entry;
     }
 
+    /**
+     * Returns the value at the given entry. Note this is not range-checked.
+     *
+     * @throws IndexOutOfBoundsException if entry is outside the bounds of the underlying array
+     */
     public ${value.javaType} getValueAt(final int entry) {
         return ${value.cast}values[entry];
     }
 
+    /**
+     * Returns the value at the entry, or a default value if the entry is out of range. Note that
+     * this method does not validate whether the entry is active within the heap.
+     */
     public ${value.javaType} getValueAtOrDefault(final int entry, final ${value.javaType} defaultValue) {
-        if(entry < 0) return defaultValue;
-        if(entry >= values.length) return defaultValue;
+        if(entry < 0 || entry >= values.length) {
+            return defaultValue;
+        }
         return ${value.cast}values[entry];
     }
 
+    /**
+     * Sets the value at the given entry. Note this is not range-checked.
+     *
+     * @throws IndexOutOfBoundsException if entry is outside the bounds of the underlying array
+     */
     public void setValueAt(final int entry, final ${value.javaType} value) {
         values[entry] = value;
     }

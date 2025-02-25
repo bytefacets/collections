@@ -1,3 +1,6 @@
+<#ftl strip_whitespace=true>
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections.heap;
 
 import com.bytefacets.collections.arrays.IntArray;
@@ -5,9 +8,7 @@ import com.bytefacets.collections.arrays.${type.name}Array;
 import com.bytefacets.collections.types.${type.name}Type;
 import com.bytefacets.collections.types.IntType;
 
-/**
- * This is a generated class. Changes to the class should be made on the template and the generator re-run.
- */
+/** Base class for a heap of ${type.javaType}. */
 <#if type.generic>@SuppressWarnings("unchecked")</#if>
 public abstract class Base${type.name}Heap${generics} extends BaseHeap {
     private ${type.arrayType}[] keys;
@@ -19,10 +20,16 @@ public abstract class Base${type.name}Heap${generics} extends BaseHeap {
         keys = ${type.name}Array.create(initialCapacity, defaultKey);
     }
 
+    /** The comparator in use for the heap. */
     public ${type.name}Type.Cmp getComparator() {
         return comp;
     }
 
+    /**
+     * Resets the comparator and rebuilds the heap.
+     *
+     * @throws NullPointerException if the given comparator is null
+     */
     public void setComparator(final ${type.name}Type.Cmp newComparator) {
         if(newComparator == null) {
             throw new NullPointerException("Cannot assign null Comparator");
@@ -41,10 +48,16 @@ public abstract class Base${type.name}Heap${generics} extends BaseHeap {
         modCount++;
     }
 
+    /** The current default key */
     public ${type.javaType} getDefaultKey() {
         return ${type.cast}defaultKey;
     }
 
+    /**
+     * Sets a default key on the heap, but can only be called when the heap is empty.
+     *
+     * @throws UnsupportedOperationException if the heap has anything in it already
+     */
     public void setDefaultKey(final ${type.javaType} defaultKey) {
         if(size > 0) {
             throw new UnsupportedOperationException("SetDefaultKey("+defaultKey+"): collection is not empty ("+getSize()+")" );
@@ -55,6 +68,7 @@ public abstract class Base${type.name}Heap${generics} extends BaseHeap {
         }
     }
 
+    /** Clears the contents of the heap. */
     public void clear() {
         IntArray.fill(tree, IntType.DEFAULT);
         IntArray.fill(inverse, IntType.DEFAULT);
@@ -65,6 +79,10 @@ public abstract class Base${type.name}Heap${generics} extends BaseHeap {
         modCount++;
     }
 
+    /**
+     * Inserts the key into the heap, returning the value's entry.
+     * The entry is a stable reference to the value.
+     */
     public int insert(final ${type.javaType} key) {
         // Insert the new node as the bottom-rightmost leaf in the values
         final int child = size;
@@ -78,7 +96,12 @@ public abstract class Base${type.name}Heap${generics} extends BaseHeap {
         return entry;
     }
 
-    public void removeAt(int entry) {
+    /**
+     * Removes the value at the given entry.
+     *
+     * @throws RuntimeException if the entry was not active in the heap
+     */
+    public void removeAt(final int entry) {
         if(entry < 0 || entry > inverse.length) {
             throw new RuntimeException("RemoveAt("+entry+"): entry is out of bounds: inverse.length="+inverse.length);
         }
@@ -114,15 +137,25 @@ public abstract class Base${type.name}Heap${generics} extends BaseHeap {
         filterDown(filterUp(node, key, lastEntry), key, lastEntry);
     }
 
+    /**
+     * Resets the key for the given entry. This can be useful for timers, which may repeat:
+     * the repeat can be accomplished by setting a new time, but the entry will remain stable.
+     */
     public void resetKey(final int entry, final ${type.javaType} newKey) {
         keys[entry] = newKey;
         filterDown(filterUp(inverse[entry], newKey, entry), newKey, entry);
     }
 
+    /**
+     * Returns the key at the given entry. Note this is not range-checked.
+     *
+     * @throws IndexOutOfBoundsException if entry is outside the bounds of the underlying array
+     */
     public ${type.javaType} getKeyAt(final int entry) {
         return ${type.cast}keys[entry];
     }
 
+    /** Returns true if the key is present in the heap. */
     public boolean containsKey(final ${type.javaType} key) {
         return getFirstEntry(key) != -1;
     }

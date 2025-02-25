@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections.bi;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -9,6 +11,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.IntStream;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class CompactManyToManyTest {
@@ -90,5 +94,34 @@ class CompactManyToManyTest {
     @Test
     void shouldReturnNegativeOneWhenUnmappingUnknown() {
         assertThat(collection.remove(28, 26), equalTo(-1));
+    }
+
+    @Nested
+    class RemoveAndReserveTests {
+        @BeforeEach
+        void setUp() {
+            IntStream.range(0, 5).forEach(right -> collection.put(2, right));
+            IntStream.range(0, 5).forEach(left -> collection.put(left, 3));
+            final int entry = collection.lookupEntry(2, 3);
+            assertThat(entry, equalTo(3));
+        }
+
+        @Test
+        void shouldRemoveEntryFromLists() {
+            collection.removeAtAndReserve(3);
+            final List<Integer> rights = new ArrayList<>();
+            final List<Integer> lefts = new ArrayList<>();
+            collection.withLeft(2).forEachValue(rights::add);
+            collection.withRight(3).forEachValue(lefts::add);
+            assertThat(rights, containsInAnyOrder(0, 1, 2, 4));
+            assertThat(lefts, containsInAnyOrder(0, 1, 3, 4));
+        }
+
+        @Test
+        void shouldNotAddEntryToFreeListBeforeExplicitlyDone() {
+            assertThat(collection.put(2, 7), equalTo(9)); // doesn't reuse 3
+            collection.freeReservedEntry(3);
+            assertThat(collection.put(2, 8), equalTo(3)); // reuses 3
+        }
     }
 }
