@@ -8,11 +8,13 @@ import com.bytefacets.collections.arrays.*;
 import com.bytefacets.collections.functional.${type.name}Consumer;
 import com.bytefacets.collections.types.*;
 
+import java.util.Objects;
+
 /**
  * Base class for an Indexed collection
  */
 <#if type.generic>@SuppressWarnings("unchecked")</#if>
-public abstract class Base${type.name}Index${generics} extends BaseHash implements ${type.name}IndexedCollection${generics} {
+abstract class Base${type.name}Index${generics} extends BaseHash implements ${type.name}IndexedCollection${generics} {
     private ${type.name}Type.Hash hashFunc  = ${type.name}Type.HashImpl;
     private ${type.name}Type.Eq   equalFunc = ${type.name}Type.EqImpl;
     private ${type.arrayType}[] keys;
@@ -286,7 +288,17 @@ public abstract class Base${type.name}Index${generics} extends BaseHash implemen
         ${type.name}Array.fill(keys, ${type.name}Type.DEFAULT, 0, Math.min(nextUnusedEntry, keys.length));
     }
     
-    protected void setEntryKey(final int entry, final ${type.javaType} key) {
-        keys[entry] = key;
+    protected void _setHashMethod(final ${type.name}Type.Hash hash) {
+        if(size > 0) {
+            throw new IllegalStateException("Cannot set new hash method because collection is not empty: " +size);
+        }
+        this.hashFunc = Objects.requireNonNull(hash);
+    }
+
+    protected void _setEqMethod(final ${type.name}Type.Eq eq) {
+        if(size > 0) {
+            throw new IllegalStateException("Cannot set new equality method because collection is not empty: " +size);
+        }
+        this.equalFunc = Objects.requireNonNull(eq);
     }
 }

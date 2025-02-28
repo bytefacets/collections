@@ -11,7 +11,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 
-public abstract class BaseHash {
+abstract class BaseHash {
     protected static final double DEFAULT_LOAD_FACTOR = 0.75;
     protected static final int MAX_CAPACITY = Integer.MAX_VALUE / 4 + 1; // must be a power of 2
 

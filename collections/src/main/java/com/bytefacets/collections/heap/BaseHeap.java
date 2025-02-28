@@ -7,7 +7,7 @@ import static com.bytefacets.collections.exception.ResizeException.cannotResize;
 import com.bytefacets.collections.arrays.IntArray;
 import java.util.function.IntConsumer;
 
-public abstract class BaseHeap {
+abstract class BaseHeap {
     protected static final int MAX_CAPACITY = Integer.MAX_VALUE / 4 + 1; // must be a power of 2
     protected int[] tree;
     protected int[] inverse;

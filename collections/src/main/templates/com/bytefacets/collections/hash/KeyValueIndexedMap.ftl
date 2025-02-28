@@ -143,4 +143,14 @@ public class ${key.name}${value.name}IndexedMap${generics} extends Base${key.nam
     protected void clearValues() {
         ${value.name}Array.fill(values, ${value.name}Type.DEFAULT, 0, Math.min(nextUnusedEntry, values.length));
     }
+
+    <#if key.name == "Double" || key.name == "Float" || key.name == "String" || key.name == "Generic">
+    public void setHashMethod(final ${key.name}Type.Hash hash) {
+        _setHashMethod(hash);
+    }
+
+    public void setEqMethod(final ${key.name}Type.Eq eq) {
+        _setEqMethod(eq);
+    }
+    </#if>
 }

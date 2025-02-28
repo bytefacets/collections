@@ -3,6 +3,8 @@
 // SPDX-License-Identifier: MIT
 package com.bytefacets.collections.hash;
 
+import com.bytefacets.collections.types.${type.name}Type;
+
 /**
  * An indexed set of ${type.javaType}
  */
@@ -34,4 +36,14 @@ public class ${type.name}IndexedSet${generics} extends Base${type.name}Index${ge
     protected void clearValues() {
         // nothing to do in a set
     }
+
+    <#if type.name == "Double" || type.name == "Float" || type.name == "String" || type.name == "Generic">
+    public void setHashMethod(final ${type.name}Type.Hash hash) {
+        _setHashMethod(hash);
+    }
+
+    public void setEqMethod(final ${type.name}Type.Eq eq) {
+        _setEqMethod(eq);
+    }
+    </#if>
 }
