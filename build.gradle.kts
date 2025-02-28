@@ -6,6 +6,8 @@ plugins {
     id("com.bytefacets.template_processor") version "0.0.3"
 }
 
+group = "com.bytefacets"
+
 gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
 
 project.version = scmVersion.version
@@ -17,7 +19,6 @@ allprojects {
     apply(plugin = "com.diffplug.spotless")
     apply(plugin = "com.github.spotbugs")
     apply(plugin = "com.bytefacets.template_processor")
-    group = "com.bytefacets.philo.${rootProject.name}"
 
     java {
         withSourcesJar()
@@ -156,8 +157,7 @@ subprojects {
             }
             create<MavenPublication>("maven") {
                 from(components["java"])
-                groupId = "com.bytefacets.philo"
-                artifactId = "${rootProject.name}-${project.name}"
+                artifactId = "bytefacets-${project.name}"
             }
         }
     }
