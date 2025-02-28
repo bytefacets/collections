@@ -5,6 +5,8 @@ package com.bytefacets.collections.heap;
 
 import com.bytefacets.collections.arrays.IntArray;
 import com.bytefacets.collections.arrays.${type.name}Array;
+import com.bytefacets.collections.exception.InvalidEntryException;
+import com.bytefacets.collections.exception.RangeCheckException;
 import com.bytefacets.collections.types.${type.name}Type;
 import com.bytefacets.collections.types.IntType;
 
@@ -84,52 +86,45 @@ public abstract class Base${type.name}Heap${generics} extends BaseHeap {
      * The entry is a stable reference to the value.
      */
     public int insert(final ${type.javaType} key) {
-        // Insert the new node as the bottom-rightmost leaf in the values
+        // insert the new node as the bottom-rightmost leaf
         final int child = size;
-
-        // Find space for the new entry
-        final int entry = getNewEntry(key);
-
-        // Move the new node up the values until it is in the right place
-        filterUp(child, key, entry);
-
+        final int entry = allocateEntry(key);
+        filterUp(child, key, entry); // place in the heap
         return entry;
     }
 
     /**
      * Removes the value at the given entry.
      *
-     * @throws RuntimeException if the entry was not active in the heap
+     * @throws InvalidEntryException if the entry was not active in the heap
+     * @throws RangeCheckException if the entry was outside the bounds of the underlying array
      */
     public void removeAt(final int entry) {
-        if(entry < 0 || entry > inverse.length) {
-            throw new RuntimeException("RemoveAt("+entry+"): entry is out of bounds: inverse.length="+inverse.length);
-        }
+        RangeCheckException.assertWithinRange(0, inverse.length - 1, entry, "entry");
 
-        // Get the node of the values that refers to this entry.
         final int node = inverse[entry];
 
-        // the node is not around, or outside the limits of the heap
+        // the node is unknown or somehow outside the limits of the heap
         if(node == -1 || node >= size) {
-            throw new RuntimeException("Tried to remove entry that does not exist: entry="
-                                        +entry+", node="+node+", size="+size);
+            throw new InvalidEntryException(
+                String.format("Tried to remove entry that does not exist: entry=%d, node=%d, size=%d",
+                              size, entry, node, size));
         }
 
-        // Allow old values to be garbage collected
         keys[entry] = defaultKey;
         clearValueAt(entry);
         size--;
 
-        // Get information about the last leaf in the values
+        // the last leaf in the values
         final int lastEntry = tree[size];
-        ${type.javaType} key = ${type.cast}keys[lastEntry];
+        final ${type.javaType} key = ${type.cast}keys[lastEntry];
 
-        // Record the removed entry on the free list
+        // put the entry on the free list
         freeCount++;
         tree[size] = entry;
         inverse[entry] = size;
 
-        // If we just removed the last node in the values we're done.
+        // shortcut if we this node was the last one
         if(node == size) {
             return;
         }
@@ -170,17 +165,14 @@ public abstract class Base${type.name}Heap${generics} extends BaseHeap {
         return -1;
     }
 
-    protected int getNewEntry(final ${type.javaType} key) {
+    protected int allocateEntry(final ${type.javaType} key) {
         int t;
         if(freeCount > 0) {
-            // There are entries on the free list to use
             t = tree[size];
             freeCount--;
         } else {
-            // There are no free entries
             final int oldLen = keys.length;
             if(size >= oldLen) {
-                // There is no room for a new entry so we must expand arrays
                 final int newCapacity = calculateNewCapacity();
                 growHeap(newCapacity);
                 growKeys(newCapacity);
@@ -198,15 +190,13 @@ public abstract class Base${type.name}Heap${generics} extends BaseHeap {
 
     protected int filterUp(int child, final ${type.arrayType} key, final int entry) {
         while(child != 0) {
-            // Compare the child to its parent to see if it needs to move up
+            // see if the child needs to move up by comparing to the parent
             final int parent = (child - 1) >> 1;
             final ${type.arrayType} parentKey = keys[tree[parent]];
             if(comp.compare(key, parentKey) >= 0) {
-                // The new node is fine where it is
-                break;
+                break; // we're ok here
             }
 
-            // We need to swap the parent with the new node
             tree[child] = tree[parent];
             inverse[tree[child]] = child;
             child = parent;
@@ -219,29 +209,26 @@ public abstract class Base${type.name}Heap${generics} extends BaseHeap {
     }
 
     protected void filterDown(int parent, final ${type.arrayType} key, final int entry) {
-        // While parent is not a leaf node...
         int child;
+        // while parent is not a leaf node...
         while((child = (parent << 1) + 1) < size) {
             ${type.arrayType} childKey = keys[tree[child]];
 
-            // If we have a right child, compare it to the left
+            // if there's a right child, compare it to the left
             if(child + 1 < size) {
                 final ${type.arrayType} rightKey = keys[tree[child + 1]];
                 if(comp.compare(childKey, rightKey) > 0) {
-                    // The right key comes before the left key
+                    // the right key comes before the left key
                     child++;
                     childKey = rightKey;
                 }
             }
 
-            // Compare our key to the earliest child key. We use <
-            // to preserve insert order.
+            // compare our key to the earliest child key. We use < to preserve insert order.
             if(comp.compare(key, childKey) < 0) {
-                // The node is fine where it is.
-                break;
+                break; // we're ok here
             }
 
-            // We need to swap the parent with the child.
             tree[parent] = tree[child];
             inverse[tree[parent]] = parent;
             parent = child;

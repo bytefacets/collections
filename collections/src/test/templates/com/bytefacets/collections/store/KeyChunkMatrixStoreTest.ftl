@@ -7,6 +7,9 @@ package com.bytefacets.collections.store;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThrows;
+
+import com.bytefacets.collections.exception.RangeCheckException;
 
 <#if !type.generic>import com.bytefacets.collections.types.${typeClass};</#if>
 import org.junit.jupiter.api.Test;
@@ -61,5 +64,17 @@ class ${type.name}ChunkMatrixStoreTest {
         assertThat(store.getCapacity(), equalTo(expectedCapacity));
         assertThat(store.numChunks(), equalTo(expectedChunks));
         assertThat(get(index, 2), equalTo(convert("7")));
+    }
+
+    @Test
+    void shouldThrowWhenRequestingNegativeField() {
+        assertThrows(RangeCheckException.class, () -> get(1, -1));
+        assertThrows(RangeCheckException.class, () -> set(1, -1, convert("7")));
+    }
+
+    @Test
+    void shouldThrowWhenRequestingFieldLargerThanConfigured() {
+        assertThrows(RangeCheckException.class, () -> get(1, NUM_FIELDS));
+        assertThrows(RangeCheckException.class, () -> set(1, NUM_FIELDS, convert("7")));
     }
 }

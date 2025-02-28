@@ -1,4 +1,4 @@
-rootProject.name = "com.bytefacets.philo"
+rootProject.name = "com.bytefacets"
 
 pluginManagement {
     repositories {
@@ -8,4 +8,4 @@ pluginManagement {
 }
 
 include("collections")
-//include("benchmark")
+include("examples")

@@ -1,5 +1,6 @@
 module com.bytefacets.collections {
     requires static com.github.spotbugs.annotations;
+    requires java.xml;
 
     exports com.bytefacets.collections.arrays;
     exports com.bytefacets.collections.bi;
@@ -10,7 +11,6 @@ module com.bytefacets.collections {
     exports com.bytefacets.collections.id;
     exports com.bytefacets.collections.queue;
     exports com.bytefacets.collections.store;
-    exports com.bytefacets.collections.tuple;
     exports com.bytefacets.collections.types;
     exports com.bytefacets.collections.vector;
     exports com.bytefacets.collections;

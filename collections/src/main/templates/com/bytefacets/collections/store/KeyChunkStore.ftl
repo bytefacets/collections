@@ -9,6 +9,11 @@ import com.bytefacets.collections.types.${type.name}Type;
 
 import java.util.Arrays;
 
+/**
+ * A store for ${type.javaType} values which are stored in array "chunks". Using chunks is
+ * especially beneficial for resizing because only new chunks need to be allocated and the
+ * copying is at the chunk level.
+ */
 public final class ${type.name}ChunkStore${generics} implements ${type.name}Store${generics} {
     private final int chunkSize;
     private final int chunkMask;
@@ -26,6 +31,7 @@ public final class ${type.name}ChunkStore${generics} implements ${type.name}Stor
         this.capacity = chunks.length * this.chunkSize;
     }
 
+    /** Returns the value at the given index. */
     <#if type.generic>@SuppressWarnings("unchecked")</#if>
     @Override
     public ${type.javaType} get${type.name}(final int index) {
@@ -37,6 +43,10 @@ public final class ${type.name}ChunkStore${generics} implements ${type.name}Stor
         return <#if type.generic>(T)</#if>chunks[chunk][offset];
     }
 
+    /**
+     * Sets the value at the given index, and grows the store to accommodate the index
+     * if necessary.
+     */
     @Override
     public void set${type.name}(final int index, final ${type.javaType} value) {
         if(index >= capacity) {
@@ -48,6 +58,7 @@ public final class ${type.name}ChunkStore${generics} implements ${type.name}Stor
         chunks[chunk][offset] = value;
     }
 
+    /** The current capacity of this store. */
     public int getCapacity() {
         return capacity;
     }

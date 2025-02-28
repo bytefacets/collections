@@ -112,7 +112,7 @@ class ${key.name}${value.name}HeapTest {
             heap.removeAt(badEntry);
             fail("Did not fail trying to remove an invalid entry");
         } catch(Exception ex) {
-            final String substring = badEntry == 0 ? "does not exist" : "entry is out of bounds";
+            final String substring = badEntry == 0 ? "does not exist" : "value must be between";
             assertTrue(ex.getMessage().contains(substring));
             assertTrue(ex.getMessage().contains(Integer.toString(badEntry)));
         }
