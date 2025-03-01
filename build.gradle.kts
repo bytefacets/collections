@@ -1,5 +1,6 @@
 import java.io.ByteArrayOutputStream
 System.out.printf("USERNAME '%s'%n", System.getenv("USERNAME"))
+gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
 
 plugins {
     java
@@ -9,8 +10,6 @@ plugins {
 }
 
 group = "com.bytefacets"
-
-gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
 
 fun getVersionFromGit(): String {
     val stdout = ByteArrayOutputStream()
