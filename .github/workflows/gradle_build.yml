@@ -35,6 +35,9 @@ jobs:
 
     - name: Build with Gradle Wrapper
       run: ./gradlew generate-typed-main-sources generate-typed-test-sources build --stacktrace
+      env:
+        USERNAME: ${{ github.actor }}
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
