@@ -162,7 +162,6 @@ subprojects {
                     name = "GitHubPackages"
                     url = uri("https://maven.pkg.github.com/bytefacets/collections")
                     credentials {
-                        // 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
                         username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
                         password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
                     }
