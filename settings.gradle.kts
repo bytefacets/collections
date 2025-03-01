@@ -9,8 +9,8 @@ pluginManagement {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/bytefacets/type-template-processor")
                 credentials {
-                    username = "bytefacets"
-                    password = "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"
+                    username = System.getenv("USERNAME")
+                    password = System.getenv("TOKEN")
                 }
             }
         }
