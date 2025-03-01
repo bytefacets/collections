@@ -1,4 +1,5 @@
 import java.io.ByteArrayOutputStream
+System.out.printf("USERNAME '%s'%n", System.getenv("USERNAME"))
 
 plugins {
     java
