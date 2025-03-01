@@ -22,7 +22,6 @@ fun getVersionFromGit(): String {
 
 version = getVersionFromGit()
 System.out.printf("VERSION '%s'%n", version)
-System.out.printf("USERNAME '%s'%n", System.getenv("USERNAME"))
 
 allprojects {
     apply(plugin = "idea")
