@@ -1,6 +1,6 @@
 plugins {
     java
-    id("com.bytefacets.template_processor") version "0.0.3"
+    id("com.bytefacets.template_processor") version "0.6.0"
 }
 
 template_processor {

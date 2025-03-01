@@ -3,7 +3,7 @@ plugins {
     id("com.github.spotbugs") version "6.0.25"                  // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-gradle-plugin
     id("com.diffplug.spotless") version "6.19.0"                 // https://mvnrepository.com/artifact/com.diffplug.spotless/spotless-plugin-gradle
     id("pl.allegro.tech.build.axion-release") version "1.15.4"  // https://mvnrepository.com/artifact/pl.allegro.tech.build.axion-release/pl.allegro.tech.build.axion-release.gradle.plugin?repo=gradle-plugins
-    id("com.bytefacets.template_processor") version "0.0.3"
+    id("com.bytefacets.template_processor") version "0.6.0"
 }
 
 group = "com.bytefacets"
@@ -150,12 +150,13 @@ subprojects {
                     name = "GitHubPackages"
                     url = uri("https://maven.pkg.github.com/bytefacets/collections")
                     credentials {
+                        // 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
                         username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
                         password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
                     }
                 }
             }
-            create<MavenPublication>("maven") {
+            create<MavenPublication>("gpr") {
                 from(components["java"])
                 artifactId = "bytefacets-${project.name}"
             }
