@@ -6,7 +6,6 @@ plugins {
     java
     id("com.github.spotbugs") version "6.0.25"                  // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-gradle-plugin
     id("com.diffplug.spotless") version "6.19.0"                 // https://mvnrepository.com/artifact/com.diffplug.spotless/spotless-plugin-gradle
-    id("com.bytefacets.template_processor") version "0.6.0"
 }
 
 group = "com.bytefacets"
@@ -31,7 +30,6 @@ allprojects {
     apply(plugin = "checkstyle")
     apply(plugin = "com.diffplug.spotless")
     apply(plugin = "com.github.spotbugs")
-    apply(plugin = "com.bytefacets.template_processor")
 
     java {
         withSourcesJar()
