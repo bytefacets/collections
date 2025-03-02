@@ -19,6 +19,8 @@ final class ManyToManyExample {
             new String[] {"English", "Science", "Latin", "Math", "History", "Civics"};
     private static final Random r = new Random(12345);
 
+    private ManyToManyExample() {}
+
     public static void main(final String[] args) {
         final School school = new School();
         addClasses(school);

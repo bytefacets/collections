@@ -1,16 +1,27 @@
+import java.io.ByteArrayOutputStream
+System.out.printf("USERNAME '%s'%n", System.getenv("USERNAME"))
+gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
+
 plugins {
     java
     id("com.github.spotbugs") version "6.0.25"                  // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-gradle-plugin
     id("com.diffplug.spotless") version "6.19.0"                 // https://mvnrepository.com/artifact/com.diffplug.spotless/spotless-plugin-gradle
-    id("pl.allegro.tech.build.axion-release") version "1.15.4"  // https://mvnrepository.com/artifact/pl.allegro.tech.build.axion-release/pl.allegro.tech.build.axion-release.gradle.plugin?repo=gradle-plugins
-    id("com.bytefacets.template_processor") version "0.0.3"
 }
 
 group = "com.bytefacets"
 
-gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
+fun getVersionFromGit(): String {
+    val stdout = ByteArrayOutputStream()
+    exec {
+        commandLine("git", "describe", "--tags", "--always", "--dirty")
+        standardOutput = stdout
+    }
+    return stdout.toString().trim().replace("v", "")
+        .replace("dirty", "SNAPSHOT")
+}
 
-project.version = scmVersion.version
+version = getVersionFromGit()
+System.out.printf("VERSION '%s'%n", version)
 
 allprojects {
     apply(plugin = "idea")
@@ -18,7 +29,6 @@ allprojects {
     apply(plugin = "checkstyle")
     apply(plugin = "com.diffplug.spotless")
     apply(plugin = "com.github.spotbugs")
-    apply(plugin = "com.bytefacets.template_processor")
 
     java {
         withSourcesJar()
@@ -155,7 +165,7 @@ subprojects {
                     }
                 }
             }
-            create<MavenPublication>("maven") {
+            create<MavenPublication>("gpr") {
                 from(components["java"])
                 artifactId = "bytefacets-${project.name}"
             }

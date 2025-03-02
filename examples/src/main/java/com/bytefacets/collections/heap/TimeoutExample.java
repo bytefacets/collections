@@ -35,18 +35,17 @@ final class TimeoutExample {
         // something that will register new items
         final ItemArrival itemArrival = new ItemArrival(manager, acknowledger);
 
-        try (var pool = Executors.newScheduledThreadPool(2)) {
-            // push new items into the "system"
-            pool.scheduleAtFixedRate(itemArrival::newItemArrived, 1, 10, TimeUnit.MILLISECONDS);
-            // acknowledge the items we decided
-            pool.scheduleAtFixedRate(acknowledger::acknowledgeNext, 1, 37, TimeUnit.MILLISECONDS);
-            // emit "timeouts" on anything that lingers too long
-            new Thread(manager).start();
-            latch.await(); // wait for 4 things to timeout
-        }
+        final var pool = Executors.newScheduledThreadPool(2);
+        // push new items into the "system"
+        pool.scheduleAtFixedRate(itemArrival::newItemArrived, 1, 10, TimeUnit.MILLISECONDS);
+        // acknowledge the items we decided
+        pool.scheduleAtFixedRate(acknowledger::acknowledgeNext, 1, 37, TimeUnit.MILLISECONDS);
+        // emit "timeouts" on anything that lingers too long
+        new Thread(manager).start();
+        latch.await(); // wait for 4 things to timeout
     }
 
-    private static class ItemArrival {
+    private static final class ItemArrival {
         private final AtomicInteger nextId = new AtomicInteger(0);
         private final TimeoutManager timeoutManager;
         private final MockAcknowledger acknowledger;
@@ -73,7 +72,7 @@ final class TimeoutExample {
         }
     }
 
-    private static class MockAcknowledger {
+    private static final class MockAcknowledger {
         private final IntDeque mockHandled = new IntDeque(16);
         private final TimeoutManager manager;
         private int ackCount = 0;
@@ -107,7 +106,7 @@ final class TimeoutExample {
     }
 
     // polls its heap
-    private static class TimeoutManager implements Runnable {
+    private static final class TimeoutManager implements Runnable {
         private final LongIntHeap heap = new LongIntHeap(16);
         private final CountDownLatch latch;
 
