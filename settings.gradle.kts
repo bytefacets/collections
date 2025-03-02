@@ -11,6 +11,8 @@ pluginManagement {
                 credentials {
                     username = System.getenv("USERNAME") ?: providers.gradleProperty("gpr.user").orElse("no-username").get()
                     password = System.getenv("TOKEN") ?: providers.gradleProperty("gpr.key").orElse("no-token").get()
+                    System.out.println("GitHubPackages.username=" + username)
+                    System.out.println("GitHubPackages.password=" + password)
                 }
             }
         }
