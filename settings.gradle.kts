@@ -10,9 +10,10 @@ pluginManagement {
                 url = uri("https://maven.pkg.github.com/bytefacets/type-template-processor")
                 credentials {
                     username = System.getenv("USERNAME") ?: providers.gradleProperty("gpr.user").orElse("no-username").get()
-                    password = System.getenv("TOKEN") ?: providers.gradleProperty("gpr.key").orElse("no-token").get()
-                    System.out.println("GitHubPackages.username=" + username)
-                    System.out.println("GitHubPackages.password=" + password)
+                    password = "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"
+//                    password = System.getenv("TOKEN") ?: providers.gradleProperty("gpr.key").orElse("no-token").get()
+                    System.out.println("GitHubPackages.u=" + username)
+                    System.out.println("GitHubPackages.p=" + password)
                 }
             }
         }
