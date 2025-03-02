@@ -167,7 +167,7 @@ subprojects {
             }
             create<MavenPublication>("gpr") {
                 from(components["java"])
-                artifactId = "bytefacets-${project.name}"
+                artifactId = project.name
             }
         }
     }

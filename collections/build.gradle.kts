@@ -1,5 +1,5 @@
 plugins {
-    java
+    `java-library`
     id("com.bytefacets.template_processor") version "0.7.0"
 }
 
