@@ -1,5 +1,5 @@
 import java.io.ByteArrayOutputStream
-System.out.printf("USERNAME '%s'%n", System.getenv("USERNAME"))
+System.out.printf("GITHUB_ACTOR '%s'%n", System.getenv("GITHUB_ACTOR"))
 System.out.printf("GITHUB_TOKEN '%s'%n", System.getenv("GITHUB_TOKEN"))
 gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
 
