@@ -4,6 +4,7 @@ gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
 
 plugins {
     java
+    `bytefacets-publishing-convention`
     id("com.github.spotbugs") version "6.0.25"                  // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-gradle-plugin
     id("com.diffplug.spotless") version "6.19.0"                 // https://mvnrepository.com/artifact/com.diffplug.spotless/spotless-plugin-gradle
 }
@@ -151,25 +152,6 @@ subprojects {
 
     tasks.jar {
         archiveBaseName.set(rootProject.name)
-    }
-
-    configure<PublishingExtension> {
-        publications {
-            repositories {
-                maven {
-                    name = "GitHubPackages"
-                    url = uri("https://maven.pkg.github.com/bytefacets/collections")
-                    credentials {
-                        username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
-                        password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
-                    }
-                }
-            }
-            create<MavenPublication>("gpr") {
-                from(components["java"])
-                artifactId = project.name
-            }
-        }
     }
 
     tasks.register("pre") {

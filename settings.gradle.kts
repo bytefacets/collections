@@ -1,4 +1,4 @@
-rootProject.name = "com.bytefacets"
+rootProject.name = "collections"
 
 pluginManagement {
     repositories {
