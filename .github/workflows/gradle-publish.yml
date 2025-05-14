@@ -29,19 +29,14 @@ jobs:
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-    - name: Debug Secrets
-      run: |
-        echo "GITHUB_ACTOR: ${GITHUB_ACTOR}"
-        echo "len(GITHUB_TOKEN): ${#GITHUB_TOKEN}"
-      env:
-        GITHUB_ACTOR: ${{ github.actor }}
-        GITHUB_TOKEN: ${{ secrets.BYTEFACETS_TOKEN }}
-
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
     - name: Build with Gradle
       run: ./gradlew create-generated-source-dir generate-typed-main-sources generate-typed-test-sources build --stacktrace
+      env:
+        GITHUB_ACTOR: ${{ github.actor }}
+        GITHUB_TOKEN: ${{ secrets.BYTEFACETS_TOKEN }}
 
     # The GITHUB_ACTOR and GITHUB_TOKEN need to correspond to the credentials environment variables used in
     # the publishing section of your build.gradle
