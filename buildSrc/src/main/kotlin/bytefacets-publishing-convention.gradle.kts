@@ -41,6 +41,7 @@ publishing {
             if (prependRootName) {
                 artifactId = "${rootProject.name}-${project.name}"
             }
+            artifactId = "bytefacets-${artifactId}"
 
             pom {
                 name.set("${project.group}:${artifactId}")
