@@ -1,29 +1,32 @@
-import java.io.ByteArrayOutputStream
-System.out.printf("GITHUB_ACTOR '%s'%n", System.getenv("GITHUB_ACTOR"))
-System.out.printf("GITHUB_TOKEN '%s'%n", System.getenv("GITHUB_TOKEN"))
-gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
-
 plugins {
     java
-    `bytefacets-publishing-convention`
+    `bytefacets-publishing-convention` apply false
+    `bytefacets-central-portal-publishing-convention`
+    id("pl.allegro.tech.build.axion-release") version "1.18.18" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
     id("com.github.spotbugs") version "6.0.25"                  // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-gradle-plugin
     id("com.diffplug.spotless") version "6.19.0"                 // https://mvnrepository.com/artifact/com.diffplug.spotless/spotless-plugin-gradle
 }
-
+gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
 group = "com.bytefacets"
 
-fun getVersionFromGit(): String {
-    val stdout = ByteArrayOutputStream()
-    exec {
-        commandLine("git", "describe", "--tags", "--always", "--dirty")
-        standardOutput = stdout
+apply(plugin = "org.jreleaser")
+apply(plugin = "com.tddworks.central-portal-publisher")
+
+scmVersion {
+    tag {
+        prefix = "" // Remove 'v' prefix expectation
     }
-    return stdout.toString().trim().replace("v", "")
-        .replace("dirty", "SNAPSHOT")
+    versionCreator.set { version, position ->
+        if (position.toString() == "SNAPSHOT") {
+            "$version-SNAPSHOT"
+        } else {
+            version
+        }
+    }
 }
 
-version = getVersionFromGit()
-System.out.printf("VERSION '%s'%n", version)
+project.version = scmVersion.version
+System.out.printf("VERSION '%s'%n", project.version)
 
 allprojects {
     apply(plugin = "idea")
@@ -66,6 +69,10 @@ allprojects {
 subprojects {
     apply(plugin = "maven-publish")
 
+    if(project.name == "collections") {
+        apply(plugin = "bytefacets-publishing-convention")
+    }
+
     project.version = project.parent?.version!!
 
     extra.apply {
@@ -97,6 +104,14 @@ subprojects {
         mockitoAgent("org.mockito:mockito-core:${mockitoVersion}") {
             isTransitive = false
         }
+    }
+
+    tasks.withType<Javadoc> {
+        options.encoding = "UTF-8"
+        (options as StandardJavadocDocletOptions).apply {
+            addStringOption("Xdoclint:none", "-quiet")
+        }
+        isFailOnError = false
     }
 
     tasks.compileJava {
@@ -152,7 +167,7 @@ subprojects {
     }
 
     tasks.jar {
-        archiveBaseName.set(rootProject.name)
+
     }
 
     tasks.register("pre") {

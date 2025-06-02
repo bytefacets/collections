@@ -33,8 +33,10 @@ publishing {
         }
     }
 
+    group = "com.bytefacets"
+
     publications {
-        create<MavenPublication>("mavenJava") {
+        create<MavenPublication>("maven-java") {
             from(components["java"])
 
             val prependRootName = rootProject.name != project.name
@@ -99,5 +101,5 @@ signing {
             System.getenv("GPG_PASSPHRASE").toString())
     }
 
-    sign(publishing.publications["mavenJava"])
+    sign(publishing.publications["maven-java"])
 }
