@@ -33,15 +33,7 @@ jobs:
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
       - name: Build with Gradle
-        run: ./gradlew create-generated-source-dir generate-typed-main-sources generate-typed-test-sources build --stacktrace
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.BYTEFACETS_TOKEN }}
-
-      # The GITHUB_ACTOR and GITHUB_TOKEN need to correspond to the credentials environment variables used in
-      # the publishing section of your build.gradle
-      - name: Publish to Sonatype
-        run: ./gradlew build jreleaserDeploy
+        run: ./gradlew create-generated-source-dir generate-typed-main-sources generate-typed-test-sources build jreleaserDeploy --stacktrace
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.BYTEFACETS_TOKEN }}

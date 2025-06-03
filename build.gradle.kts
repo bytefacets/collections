@@ -13,7 +13,7 @@ apply(plugin = "org.jreleaser")
 
 scmVersion {
     tag {
-        prefix = "" // Remove 'v' prefix expectation
+        prefix = "v"
     }
     versionCreator.set { version, position ->
         if (position.toString() == "SNAPSHOT") {
