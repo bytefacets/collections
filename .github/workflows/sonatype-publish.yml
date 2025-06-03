@@ -41,15 +41,12 @@ jobs:
       # The GITHUB_ACTOR and GITHUB_TOKEN need to correspond to the credentials environment variables used in
       # the publishing section of your build.gradle
       - name: Publish to Sonatype
-        run: ./gradlew publishMaven-javaPublicationToSonatypePortalRepository jreleaserDeploy
+        run: ./gradlew build jreleaserDeploy
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.BYTEFACETS_TOKEN }}
-          # TDD
           SIGNING_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           SIGNING_PASSWORD: ${{ secrets.GPG_PASSPHRASE }}
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           ## JRELEASER
           JRELEASER_GITHUB_TOKEN: ${{ secrets.BYTEFACETS_TOKEN }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}

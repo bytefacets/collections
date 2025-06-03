@@ -10,7 +10,6 @@ gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
 group = "com.bytefacets"
 
 apply(plugin = "org.jreleaser")
-apply(plugin = "com.tddworks.central-portal-publisher")
 
 scmVersion {
     tag {

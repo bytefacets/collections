@@ -27,7 +27,6 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 
 dependencies {
     implementation("io.github.gradle-nexus:publish-plugin:1.3.0")
-    implementation("com.tddworks.central-portal-publisher:com.tddworks.central-portal-publisher.gradle.plugin:0.0.5")
     implementation("org.jreleaser:org.jreleaser.gradle.plugin:1.18.0") // https://plugins.gradle.org/plugin/org.jreleaser
     implementation("com.gradle.publish:plugin-publish-plugin:1.2.1")
 }
