@@ -12,16 +12,16 @@ group = "com.bytefacets"
 apply(plugin = "org.jreleaser")
 
 scmVersion {
-    tag {
-        prefix = "" // Remove 'v' prefix expectation
-    }
-    versionCreator.set { version, position ->
-        if (position.toString() == "SNAPSHOT") {
-            "$version-SNAPSHOT"
-        } else {
-            version
-        }
-    }
+//    tag {
+//        prefix = "" // Remove 'v' prefix expectation
+//    }
+//    versionCreator.set { version, position ->
+//        if (position.toString() == "SNAPSHOT") {
+//            "$version-SNAPSHOT"
+//        } else {
+//            version
+//        }
+//    }
 }
 
 project.version = scmVersion.version
