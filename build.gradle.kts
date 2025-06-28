@@ -9,22 +9,9 @@ plugins {
 gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
 group = "com.bytefacets"
 
-apply(plugin = "org.jreleaser")
+apply(plugin = "com.tddworks.central-portal-publisher")
 
-scmVersion {
-//    tag {
-//        prefix = "" // Remove 'v' prefix expectation
-//    }
-//    versionCreator.set { version, position ->
-//        if (position.toString() == "SNAPSHOT") {
-//            "$version-SNAPSHOT"
-//        } else {
-//            version
-//        }
-//    }
-}
-
-project.version = scmVersion.version
+project.version = System.getenv("GIT_TAG") ?: "0.0.1-SNAPSHOT"
 System.out.printf("VERSION '%s'%n", project.version)
 
 allprojects {

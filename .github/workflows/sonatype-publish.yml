@@ -39,20 +39,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.BYTEFACETS_TOKEN }}
           SIGNING_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           SIGNING_PASSWORD: ${{ secrets.GPG_PASSPHRASE }}
+          GIT_TAG: ${{ github.ref_name }}
 
       - name: Publish to Sonatype
-        run: ls -lR collections/build; ./gradlew jreleaserDeploy --stacktrace
+        run: ls -lR collections/build; ./gradlew publishMaven-javaPublicationToSonatypePortalRepository --stacktrace
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.BYTEFACETS_TOKEN }}
           SIGNING_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           SIGNING_PASSWORD: ${{ secrets.GPG_PASSPHRASE }}
-          ## JRELEASER
-          JRELEASER_GITHUB_TOKEN: ${{ secrets.BYTEFACETS_TOKEN }}
-          JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          JRELEASER_MAVENCENTRAL_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          JRELEASER_MAVENCENTRAL_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          JRELEASER_UPLOAD_ACTIVE: ALWAYS
-          JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.GPG_PUBLIC_KEY }}
-          JRELEASER_GPG_SECRET_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GIT_TAG: ${{ github.ref_name }}
 
