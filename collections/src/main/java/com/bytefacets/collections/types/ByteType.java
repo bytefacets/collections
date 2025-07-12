@@ -81,6 +81,32 @@ public final class ByteType {
         return Byte.parseByte(value);
     }
 
+    public static byte enableBits(final byte flag, final byte bits) {
+        return (byte) (flag | bits);
+    }
+
+    public static byte disableBits(final byte flag, final byte bits) {
+        return (byte) (flag & ~bits);
+    }
+
+    public static int writeLE(final byte[] array, final int pos, final byte value) {
+        array[pos] = value;
+        return 1;
+    }
+
+    public static int writeBE(final byte[] array, final int pos, final byte value) {
+        array[pos] = value;
+        return 1;
+    }
+
+    public static byte readLE(final byte[] array, final int pos) {
+        return array[pos];
+    }
+
+    public static byte readBE(final byte[] array, final int pos) {
+        return array[pos];
+    }
+
     public static byte convert(final Object value) {
         if (value == null) {
             return DEFAULT;

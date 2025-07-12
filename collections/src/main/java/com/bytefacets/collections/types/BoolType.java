@@ -69,6 +69,24 @@ public final class BoolType {
         return Boolean.parseBoolean(value);
     }
 
+    public static int writeLE(final byte[] array, final int pos, final boolean value) {
+        array[pos] = (byte) (value ? 1 : 0);
+        return 1;
+    }
+
+    public static int writeBE(final byte[] array, final int pos, final boolean value) {
+        array[pos] = (byte) (value ? 1 : 0);
+        return 1;
+    }
+
+    public static boolean readLE(final byte[] array, final int pos) {
+        return array[pos] == 1;
+    }
+
+    public static boolean readBE(final byte[] array, final int pos) {
+        return array[pos] == 1;
+    }
+
     public static boolean convert(final Object value) {
         if (value == null) {
             return DEFAULT;

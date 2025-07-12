@@ -80,6 +80,46 @@ public final class IntType {
         return Integer.parseInt(value);
     }
 
+    public static int enableBits(final int flag, final int bits) {
+        return flag | bits;
+    }
+
+    public static int disableBits(final int flag, final int bits) {
+        return flag & ~bits;
+    }
+
+    public static int writeLE(final byte[] array, final int pos, final int value) {
+        array[pos + 3] = (byte) (value >> 24);
+        array[pos + 2] = (byte) (value >> 16);
+        array[pos + 1] = (byte) (value >> 8);
+        array[pos] = (byte) (value & 0xff);
+        return 4;
+    }
+
+    public static int writeBE(final byte[] array, final int pos, final int value) {
+        array[pos] = (byte) (value >> 24);
+        array[pos + 1] = (byte) (value >> 16);
+        array[pos + 2] = (byte) (value >> 8);
+        array[pos + 3] = (byte) (value & 0xff);
+        return 4;
+    }
+
+    @SuppressWarnings("BooleanExpressionComplexity")
+    public static int readLE(final byte[] array, final int pos) {
+        return (((array[pos + 3] & 0xff) << 24)
+                | ((array[pos + 2] & 0xff) << 16)
+                | ((array[pos + 1] & 0xff) << 8)
+                | (array[pos] & 0xff));
+    }
+
+    @SuppressWarnings("BooleanExpressionComplexity")
+    public static int readBE(final byte[] array, final int pos) {
+        return (((array[pos] & 0xff) << 24)
+                | ((array[pos + 1] & 0xff) << 16)
+                | ((array[pos + 2] & 0xff) << 8)
+                | (array[pos + 3] & 0xff));
+    }
+
     public static int convert(final Object value) {
         if (value == null) {
             return DEFAULT;

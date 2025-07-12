@@ -6,8 +6,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -15,6 +18,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class IntTypeTest {
 
@@ -64,6 +68,64 @@ class IntTypeTest {
     void shouldTestPredicate(
             final PredicateMethod method, final int a, final int b, final boolean expectedResult) {
         assertThat(IntType.predicateFor(method).test(a, b), equalTo(expectedResult));
+    }
+
+    @Nested
+    class FlagTests {
+        @ParameterizedTest
+        @CsvSource({
+            "0b00000000000000000000000000000000,0b01010001100100011001000110010001,0b01010001100100011001000110010001",
+            "0b00101001100010011000100110001001,0b01010001000100010001000100010001,0b01111001100110011001100110011001",
+            "0b01111111111111111111111111111111,0b00000000000000000000000000000000,0b01111111111111111111111111111111",
+            "0b00000000000000000000000000000000,0b01111111111111111111111111111111,0b01111111111111111111111111111111"
+        })
+        void shouldEnableFlags(final String value, final String bits, final String result) {
+            final int bResult = Integer.parseInt(result.substring(2), 2);
+            final int bValue = Integer.parseInt(value.substring(2), 2);
+            final int bBits = Integer.parseInt(bits.substring(2), 2);
+            assertThat(IntType.enableBits(bValue, bBits), equalTo(bResult));
+        }
+
+        @ParameterizedTest
+        @CsvSource({
+            "0b00000000000000000000000000000000,0b00010001100100011001000110010001,0b00000000000000000000000000000000",
+            "0b00001001100010011000100110001001,0b00011000000110000001100000011000,0b00000001100000011000000110000001",
+            "0b01111111111111111111111111111111,0b00000000000000000000000000000000,0b01111111111111111111111111111111",
+            "0b00000000000000000000000000000000,0b01111111111111111111111111111111,0b00000000000000000000000000000000"
+        })
+        void shouldDisableFlags(final String value, final String bits, final String result) {
+            final int bResult = Integer.parseInt(result.substring(2), 2);
+            final int bValue = Integer.parseInt(value.substring(2), 2);
+            final int bBits = Integer.parseInt(bits.substring(2), 2);
+            assertThat(IntType.disableBits(bValue, bBits), equalTo(bResult));
+        }
+    }
+
+    @Nested
+    class ReadWriteArrayTests {
+        private final byte[] array = new byte[6];
+        private final byte[] bufArr = new byte[6];
+        private final ByteBuffer buffer = ByteBuffer.wrap(bufArr).position(1);
+
+        @ParameterizedTest
+        @ValueSource(ints = {Integer.MIN_VALUE, Integer.MAX_VALUE, 0, -1, 1174259})
+        void shouldRoundTripBigEndian(final int value) {
+            assertThat(IntType.writeBE(array, 1, value), equalTo(4));
+            assertThat(IntType.readBE(array, 1), equalTo(value));
+
+            buffer.order(ByteOrder.BIG_ENDIAN).putInt(value);
+            assertThat(Arrays.equals(array, bufArr), equalTo(true));
+        }
+
+        @ParameterizedTest
+        @ValueSource(ints = {Integer.MIN_VALUE, Integer.MAX_VALUE, 0, -1, 1174259})
+        void shouldRoundTripLittleEndian(final int value) {
+            assertThat(IntType.writeLE(array, 1, value), equalTo(4));
+            assertThat(IntType.readLE(array, 1), equalTo(value));
+
+            buffer.order(ByteOrder.LITTLE_ENDIAN).putInt(value);
+            assertThat(Arrays.equals(array, bufArr), equalTo(true));
+        }
     }
 
     @Nested

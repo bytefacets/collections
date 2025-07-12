@@ -82,6 +82,22 @@ public final class DoubleType {
         return Double.parseDouble(value);
     }
 
+    public static int writeLE(final byte[] array, final int pos, final double value) {
+        return LongType.writeLE(array, pos, Double.doubleToRawLongBits(value));
+    }
+
+    public static int writeBE(final byte[] array, final int pos, final double value) {
+        return LongType.writeBE(array, pos, Double.doubleToRawLongBits(value));
+    }
+
+    public static double readLE(final byte[] array, final int pos) {
+        return Double.longBitsToDouble(LongType.readLE(array, pos));
+    }
+
+    public static double readBE(final byte[] array, final int pos) {
+        return Double.longBitsToDouble(LongType.readBE(array, pos));
+    }
+
     public static double convert(final Object value) {
         if (value == null) {
             return DEFAULT;

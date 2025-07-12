@@ -81,6 +81,22 @@ public final class FloatType {
         return Float.parseFloat(value);
     }
 
+    public static int writeLE(final byte[] array, final int pos, final float value) {
+        return IntType.writeLE(array, pos, Float.floatToRawIntBits(value));
+    }
+
+    public static int writeBE(final byte[] array, final int pos, final float value) {
+        return IntType.writeBE(array, pos, Float.floatToRawIntBits(value));
+    }
+
+    public static float readLE(final byte[] array, final int pos) {
+        return Float.intBitsToFloat(IntType.readLE(array, pos));
+    }
+
+    public static float readBE(final byte[] array, final int pos) {
+        return Float.intBitsToFloat(IntType.readBE(array, pos));
+    }
+
     public static float convert(final Object value) {
         if (value == null) {
             return DEFAULT;
