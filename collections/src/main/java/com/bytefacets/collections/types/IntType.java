@@ -104,6 +104,7 @@ public final class IntType {
         return 4;
     }
 
+    @SuppressWarnings("BooleanExpressionComplexity")
     public static int readLE(final byte[] array, final int pos) {
         return (((array[pos + 3] & 0xff) << 24)
                 | ((array[pos + 2] & 0xff) << 16)
@@ -111,6 +112,7 @@ public final class IntType {
                 | (array[pos] & 0xff));
     }
 
+    @SuppressWarnings("BooleanExpressionComplexity")
     public static int readBE(final byte[] array, final int pos) {
         return (((array[pos] & 0xff) << 24)
                 | ((array[pos + 1] & 0xff) << 16)

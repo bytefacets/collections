@@ -113,6 +113,7 @@ public final class LongType {
         return 8;
     }
 
+    @SuppressWarnings("BooleanExpressionComplexity")
     public static long readLE(final byte[] array, final int pos) {
         return ((((long) array[pos + 7] & 0xff) << 56)
                 | (((long) array[pos + 6] & 0xff) << 48)
@@ -124,6 +125,7 @@ public final class LongType {
                 | (((long) array[pos] & 0xff)));
     }
 
+    @SuppressWarnings("BooleanExpressionComplexity")
     public static long readBE(final byte[] array, final int pos) {
         return ((((long) array[pos] & 0xff) << 56)
                 | (((long) array[pos + 1] & 0xff) << 48)
