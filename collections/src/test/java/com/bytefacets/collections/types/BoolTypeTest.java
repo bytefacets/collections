@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class BoolTypeTest {
 
@@ -54,6 +55,25 @@ class BoolTypeTest {
             final boolean b,
             final boolean expectedResult) {
         assertThat(BoolType.predicateFor(method).test(a, b), equalTo(expectedResult));
+    }
+
+    @Nested
+    class ReadWriteArrayTests {
+        private final byte[] array = new byte[3];
+
+        @ParameterizedTest
+        @ValueSource(booleans = {true, false})
+        void shouldRoundTripBigEndian(final boolean value) {
+            assertThat(BoolType.writeBE(array, 1, value), equalTo(1));
+            assertThat(BoolType.readBE(array, 1), equalTo(value));
+        }
+
+        @ParameterizedTest
+        @ValueSource(booleans = {true, false})
+        void shouldRoundTripLittleEndian(final boolean value) {
+            assertThat(BoolType.writeLE(array, 1, value), equalTo(1));
+            assertThat(BoolType.readLE(array, 1), equalTo(value));
+        }
     }
 
     @Nested

@@ -81,6 +81,60 @@ public final class LongType {
         return Long.parseLong(value);
     }
 
+    public static long enableBits(final long flag, final long bits) {
+        return flag | bits;
+    }
+
+    public static long disableBits(final long flag, final long bits) {
+        return flag & ~bits;
+    }
+
+    public static int writeLE(final byte[] array, final int pos, final long value) {
+        array[pos + 7] = (byte) (value >> 56);
+        array[pos + 6] = (byte) (value >> 48);
+        array[pos + 5] = (byte) (value >> 40);
+        array[pos + 4] = (byte) (value >> 32);
+        array[pos + 3] = (byte) (value >> 24);
+        array[pos + 2] = (byte) (value >> 16);
+        array[pos + 1] = (byte) (value >> 8);
+        array[pos] = (byte) (value & 0xff);
+        return 8;
+    }
+
+    public static int writeBE(final byte[] array, final int pos, final long value) {
+        array[pos] = (byte) (value >> 56);
+        array[pos + 1] = (byte) (value >> 48);
+        array[pos + 2] = (byte) (value >> 40);
+        array[pos + 3] = (byte) (value >> 32);
+        array[pos + 4] = (byte) (value >> 24);
+        array[pos + 5] = (byte) (value >> 16);
+        array[pos + 6] = (byte) (value >> 8);
+        array[pos + 7] = (byte) (value & 0xff);
+        return 8;
+    }
+
+    public static long readLE(final byte[] array, final int pos) {
+        return ((((long) array[pos + 7] & 0xff) << 56)
+                | (((long) array[pos + 6] & 0xff) << 48)
+                | (((long) array[pos + 5] & 0xff) << 40)
+                | (((long) array[pos + 4] & 0xff) << 32)
+                | (((long) array[pos + 3] & 0xff) << 24)
+                | (((long) array[pos + 2] & 0xff) << 16)
+                | (((long) array[pos + 1] & 0xff) << 8)
+                | (((long) array[pos] & 0xff)));
+    }
+
+    public static long readBE(final byte[] array, final int pos) {
+        return ((((long) array[pos] & 0xff) << 56)
+                | (((long) array[pos + 1] & 0xff) << 48)
+                | (((long) array[pos + 2] & 0xff) << 40)
+                | (((long) array[pos + 3] & 0xff) << 32)
+                | (((long) array[pos + 4] & 0xff) << 24)
+                | (((long) array[pos + 5] & 0xff) << 16)
+                | (((long) array[pos + 6] & 0xff) << 8)
+                | (((long) array[pos + 7] & 0xff)));
+    }
+
     public static long convert(final Object value) {
         if (value == null) {
             return DEFAULT;

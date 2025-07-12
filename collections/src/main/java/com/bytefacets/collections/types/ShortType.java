@@ -81,6 +81,34 @@ public final class ShortType {
         return Short.parseShort(value);
     }
 
+    public static short enableBits(final short flag, final short bits) {
+        return (short) (flag | bits);
+    }
+
+    public static short disableBits(final short flag, final short bits) {
+        return (short) (flag & ~bits);
+    }
+
+    public static int writeLE(final byte[] array, final int pos, final short value) {
+        array[pos + 1] = (byte) (value >> 8);
+        array[pos] = (byte) (value & 0xff);
+        return 2;
+    }
+
+    public static int writeBE(final byte[] array, final int pos, final short value) {
+        array[pos] = (byte) (value >> 8);
+        array[pos + 1] = (byte) (value & 0xff);
+        return 2;
+    }
+
+    public static short readLE(final byte[] array, final int pos) {
+        return (short) (((array[pos + 1] & 0xff) << 8) | (array[pos] & 0xff));
+    }
+
+    public static short readBE(final byte[] array, final int pos) {
+        return (short) (((array[pos] & 0xff) << 8) | (array[pos + 1] & 0xff));
+    }
+
     public static short convert(final Object value) {
         if (value == null) {
             return DEFAULT;
