@@ -25,13 +25,17 @@ public class ${key.name}${value.name}IndexedMap${generics} extends Base${key.nam
     }
 
     /**
-     * Adds a key to the map, sets its value to the value type's default,
-     * and returns the stable entry for the key in the map.
+     * Adds a key to the map, sets its value to the value type's default if it's a new key,
+     * and returns the stable entry for the key in the map. If the key is not new, the value
+     * is not modified.
      */
     @Override
     public int add(final ${key.javaType} key) {
+        final int oldSize = size;
         final int entry = super.add(key);
-        values[entry] = ${value.name}Type.DEFAULT;
+        if(oldSize != size) {
+            values[entry] = ${value.name}Type.DEFAULT;
+        }
         return entry;
     }
 
@@ -41,8 +45,9 @@ public class ${key.name}${value.name}IndexedMap${generics} extends Base${key.nam
 
         if(values.length < source.values.length) {
             values = ${value.name}Array.create(source.values.length);
-        } else {
-            ${value.name}Array.fill(values, ${value.name}Type.DEFAULT, source.values.length, values.length);
+        } else if(values.length > source.values.length) {
+            final int emptyLength = values.length - source.values.length;
+            ${value.name}Array.fill(values, ${value.name}Type.DEFAULT, source.values.length, emptyLength);
         }
         System.arraycopy(source.values, 0, values, 0, source.values.length);
     }
