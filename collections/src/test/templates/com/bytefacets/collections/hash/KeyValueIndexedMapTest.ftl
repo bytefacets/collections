@@ -127,11 +127,6 @@ class ${key.name}${value.name}IndexedMapTest {
         map.removeAtAndReserve(entry);
     }
 
-    private int add(${key.arrayType} key) {
-        expected.put(key, ${value.name}Type.DEFAULT);
-        return map.put(key, ${value.name}Type.DEFAULT);
-    }
-
     private int add(${key.arrayType} key, ${value.arrayType} value) {
         expected.put(key, value);
         return map.put(key, value);
