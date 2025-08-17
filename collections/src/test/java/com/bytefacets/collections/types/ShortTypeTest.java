@@ -111,7 +111,7 @@ class ShortTypeTest {
         @ParameterizedTest
         @ValueSource(shorts = {Short.MIN_VALUE, Short.MAX_VALUE, 0, -1, 11749})
         void shouldRoundTripBigEndian(final short value) {
-            assertThat(ShortType.writeBE(array, 1, value), equalTo(2));
+            assertThat(ShortType.writeBE(array, 1, value), equalTo(3));
             assertThat(ShortType.readBE(array, 1), equalTo(value));
 
             buffer.order(ByteOrder.BIG_ENDIAN).putShort(value);
@@ -121,7 +121,7 @@ class ShortTypeTest {
         @ParameterizedTest
         @ValueSource(shorts = {Short.MIN_VALUE, Short.MAX_VALUE, 0, -1, 11749})
         void shouldRoundTripLittleEndian(final short value) {
-            assertThat(ShortType.writeLE(array, 1, value), equalTo(2));
+            assertThat(ShortType.writeLE(array, 1, value), equalTo(3));
             assertThat(ShortType.readLE(array, 1), equalTo(value));
 
             buffer.order(ByteOrder.LITTLE_ENDIAN).putShort(value);

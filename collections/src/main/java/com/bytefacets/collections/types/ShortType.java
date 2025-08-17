@@ -92,13 +92,13 @@ public final class ShortType {
     public static int writeLE(final byte[] array, final int pos, final short value) {
         array[pos + 1] = (byte) (value >> 8);
         array[pos] = (byte) (value & 0xff);
-        return 2;
+        return pos + 2;
     }
 
     public static int writeBE(final byte[] array, final int pos, final short value) {
         array[pos] = (byte) (value >> 8);
         array[pos + 1] = (byte) (value & 0xff);
-        return 2;
+        return pos + 2;
     }
 
     public static short readLE(final byte[] array, final int pos) {

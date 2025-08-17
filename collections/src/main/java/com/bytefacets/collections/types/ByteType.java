@@ -91,12 +91,12 @@ public final class ByteType {
 
     public static int writeLE(final byte[] array, final int pos, final byte value) {
         array[pos] = value;
-        return 1;
+        return pos + 1;
     }
 
     public static int writeBE(final byte[] array, final int pos, final byte value) {
         array[pos] = value;
-        return 1;
+        return pos + 1;
     }
 
     public static byte readLE(final byte[] array, final int pos) {

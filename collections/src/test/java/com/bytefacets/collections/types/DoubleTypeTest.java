@@ -86,7 +86,7 @@ class DoubleTypeTest {
         @ParameterizedTest
         @ValueSource(doubles = {Double.MIN_VALUE, Double.MAX_VALUE, 0, -1, 1174259.257})
         void shouldRoundTripBigEndian(final double value) {
-            assertThat(DoubleType.writeBE(array, 1, value), equalTo(8));
+            assertThat(DoubleType.writeBE(array, 1, value), equalTo(9));
             assertThat(DoubleType.readBE(array, 1), equalTo(value));
 
             buffer.order(ByteOrder.BIG_ENDIAN).putDouble(value);
@@ -96,7 +96,7 @@ class DoubleTypeTest {
         @ParameterizedTest
         @ValueSource(doubles = {Double.MIN_VALUE, Double.MAX_VALUE, 0, -1, 1174259.257})
         void shouldRoundTripLittleEndian(final double value) {
-            assertThat(DoubleType.writeLE(array, 1, value), equalTo(8));
+            assertThat(DoubleType.writeLE(array, 1, value), equalTo(9));
             assertThat(DoubleType.readLE(array, 1), equalTo(value));
 
             buffer.order(ByteOrder.LITTLE_ENDIAN).putDouble(value);

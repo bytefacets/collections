@@ -84,7 +84,7 @@ class FloatTypeTest {
         @ParameterizedTest
         @ValueSource(floats = {Float.MIN_VALUE, Float.MAX_VALUE, 0, -1, 1174259.257f})
         void shouldRoundTripBigEndian(final float value) {
-            assertThat(FloatType.writeBE(array, 1, value), equalTo(4));
+            assertThat(FloatType.writeBE(array, 1, value), equalTo(5));
             assertThat(FloatType.readBE(array, 1), equalTo(value));
 
             buffer.order(ByteOrder.BIG_ENDIAN).putFloat(value);
@@ -94,7 +94,7 @@ class FloatTypeTest {
         @ParameterizedTest
         @ValueSource(floats = {Float.MIN_VALUE, Float.MAX_VALUE, 0, -1, 1174259.257f})
         void shouldRoundTripLittleEndian(final float value) {
-            assertThat(FloatType.writeLE(array, 1, value), equalTo(4));
+            assertThat(FloatType.writeLE(array, 1, value), equalTo(5));
             assertThat(FloatType.readLE(array, 1), equalTo(value));
 
             buffer.order(ByteOrder.LITTLE_ENDIAN).putFloat(value);

@@ -93,7 +93,7 @@ public final class IntType {
         array[pos + 2] = (byte) (value >> 16);
         array[pos + 1] = (byte) (value >> 8);
         array[pos] = (byte) (value & 0xff);
-        return 4;
+        return pos + 4;
     }
 
     public static int writeBE(final byte[] array, final int pos, final int value) {
@@ -101,7 +101,7 @@ public final class IntType {
         array[pos + 1] = (byte) (value >> 16);
         array[pos + 2] = (byte) (value >> 8);
         array[pos + 3] = (byte) (value & 0xff);
-        return 4;
+        return pos + 4;
     }
 
     @SuppressWarnings("BooleanExpressionComplexity")

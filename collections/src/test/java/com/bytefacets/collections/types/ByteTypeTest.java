@@ -111,7 +111,7 @@ class ByteTypeTest {
         @ParameterizedTest
         @ValueSource(bytes = {Byte.MIN_VALUE, Byte.MAX_VALUE, 0, -1, 117})
         void shouldRoundTripBigEndian(final byte value) {
-            assertThat(ByteType.writeBE(array, 1, value), equalTo(1));
+            assertThat(ByteType.writeBE(array, 1, value), equalTo(2));
             assertThat(ByteType.readBE(array, 1), equalTo(value));
 
             buffer.order(ByteOrder.BIG_ENDIAN).put(value);
@@ -121,7 +121,7 @@ class ByteTypeTest {
         @ParameterizedTest
         @ValueSource(bytes = {Byte.MIN_VALUE, Byte.MAX_VALUE, 0, -1, 117})
         void shouldRoundTripLittleEndian(final byte value) {
-            assertThat(ByteType.writeLE(array, 1, value), equalTo(1));
+            assertThat(ByteType.writeLE(array, 1, value), equalTo(2));
             assertThat(ByteType.readLE(array, 1), equalTo(value));
 
             buffer.order(ByteOrder.LITTLE_ENDIAN).put(value);
