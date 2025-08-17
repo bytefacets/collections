@@ -98,7 +98,7 @@ public final class LongType {
         array[pos + 2] = (byte) (value >> 16);
         array[pos + 1] = (byte) (value >> 8);
         array[pos] = (byte) (value & 0xff);
-        return 8;
+        return pos + 8;
     }
 
     public static int writeBE(final byte[] array, final int pos, final long value) {
@@ -110,7 +110,7 @@ public final class LongType {
         array[pos + 5] = (byte) (value >> 16);
         array[pos + 6] = (byte) (value >> 8);
         array[pos + 7] = (byte) (value & 0xff);
-        return 8;
+        return pos + 8;
     }
 
     @SuppressWarnings("BooleanExpressionComplexity")

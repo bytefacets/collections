@@ -110,7 +110,7 @@ class IntTypeTest {
         @ParameterizedTest
         @ValueSource(ints = {Integer.MIN_VALUE, Integer.MAX_VALUE, 0, -1, 1174259})
         void shouldRoundTripBigEndian(final int value) {
-            assertThat(IntType.writeBE(array, 1, value), equalTo(4));
+            assertThat(IntType.writeBE(array, 1, value), equalTo(5));
             assertThat(IntType.readBE(array, 1), equalTo(value));
 
             buffer.order(ByteOrder.BIG_ENDIAN).putInt(value);
@@ -120,7 +120,7 @@ class IntTypeTest {
         @ParameterizedTest
         @ValueSource(ints = {Integer.MIN_VALUE, Integer.MAX_VALUE, 0, -1, 1174259})
         void shouldRoundTripLittleEndian(final int value) {
-            assertThat(IntType.writeLE(array, 1, value), equalTo(4));
+            assertThat(IntType.writeLE(array, 1, value), equalTo(5));
             assertThat(IntType.readLE(array, 1), equalTo(value));
 
             buffer.order(ByteOrder.LITTLE_ENDIAN).putInt(value);

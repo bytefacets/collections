@@ -64,14 +64,14 @@ class BoolTypeTest {
         @ParameterizedTest
         @ValueSource(booleans = {true, false})
         void shouldRoundTripBigEndian(final boolean value) {
-            assertThat(BoolType.writeBE(array, 1, value), equalTo(1));
+            assertThat(BoolType.writeBE(array, 1, value), equalTo(2));
             assertThat(BoolType.readBE(array, 1), equalTo(value));
         }
 
         @ParameterizedTest
         @ValueSource(booleans = {true, false})
         void shouldRoundTripLittleEndian(final boolean value) {
-            assertThat(BoolType.writeLE(array, 1, value), equalTo(1));
+            assertThat(BoolType.writeLE(array, 1, value), equalTo(2));
             assertThat(BoolType.readLE(array, 1), equalTo(value));
         }
     }

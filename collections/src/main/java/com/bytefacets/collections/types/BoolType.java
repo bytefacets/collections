@@ -71,12 +71,12 @@ public final class BoolType {
 
     public static int writeLE(final byte[] array, final int pos, final boolean value) {
         array[pos] = (byte) (value ? 1 : 0);
-        return 1;
+        return pos + 1;
     }
 
     public static int writeBE(final byte[] array, final int pos, final boolean value) {
         array[pos] = (byte) (value ? 1 : 0);
-        return 1;
+        return pos + 1;
     }
 
     public static boolean readLE(final byte[] array, final int pos) {

@@ -111,7 +111,7 @@ class LongTypeTest {
         @ParameterizedTest
         @ValueSource(longs = {Long.MIN_VALUE, Long.MAX_VALUE, 0, -1, 1174259})
         void shouldRoundTripBigEndian(final long value) {
-            assertThat(LongType.writeBE(array, 1, value), equalTo(8));
+            assertThat(LongType.writeBE(array, 1, value), equalTo(9));
             assertThat(LongType.readBE(array, 1), equalTo(value));
 
             buffer.order(ByteOrder.BIG_ENDIAN).putLong(value);
@@ -121,7 +121,7 @@ class LongTypeTest {
         @ParameterizedTest
         @ValueSource(longs = {Long.MIN_VALUE, Long.MAX_VALUE, 0, -1, 1174259})
         void shouldRoundTripLittleEndian(final long value) {
-            assertThat(LongType.writeLE(array, 1, value), equalTo(8));
+            assertThat(LongType.writeLE(array, 1, value), equalTo(9));
             assertThat(LongType.readLE(array, 1), equalTo(value));
 
             buffer.order(ByteOrder.LITTLE_ENDIAN).putLong(value);
