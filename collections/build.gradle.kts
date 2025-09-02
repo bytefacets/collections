@@ -1,6 +1,6 @@
 plugins {
     `java-library`
-    id("com.bytefacets.template_processor") version "0.8.0"
+    id("com.bytefacets.template_processor") version "0.10.0"
 }
 
 apply(plugin = "com.bytefacets.template_processor")
