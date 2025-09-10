@@ -100,4 +100,24 @@ public final class CharType {
         throw new IllegalArgumentException(
                 String.format("Could not convert to char: %s (%s)", value, type.getName()));
     }
+
+    public static int writeLE(final byte[] array, final int pos, final char value) {
+        array[pos + 1] = (byte) (value >> 8);
+        array[pos] = (byte) (value & 0xff);
+        return pos + 2;
+    }
+
+    public static int writeBE(final byte[] array, final int pos, final char value) {
+        array[pos] = (byte) (value >> 8);
+        array[pos + 1] = (byte) (value & 0xff);
+        return pos + 2;
+    }
+
+    public static char readLE(final byte[] array, final int pos) {
+        return (char) (((array[pos + 1] & 0xff) << 8) | (array[pos] & 0xff));
+    }
+
+    public static char readBE(final byte[] array, final int pos) {
+        return (char) (((array[pos] & 0xff) << 8) | (array[pos + 1] & 0xff));
+    }
 }

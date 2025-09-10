@@ -4,6 +4,7 @@ package com.bytefacets.collections.types;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 
 public final class IntType {
     public static final int DEFAULT = 0;
@@ -145,10 +146,38 @@ public final class IntType {
     }
 
     public static int fromLocalDate(final LocalDate date) {
-        return (date.getYear() * 10000) + (date.getMonthValue() * 100) + date.getDayOfMonth();
+        return toYYYMMDD(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
+    }
+
+    public static LocalDate toLocalDate(int yyyyMMdd) {
+        final int year = yyyyMMdd / 10000;
+        final int month = (yyyyMMdd / 100) % 100;
+        final int day = yyyyMMdd % 100;
+        return LocalDate.of(year, month, day);
     }
 
     public static int fromLocalTime(final LocalTime time) {
-        return (time.getHour() * 10000) + (time.getMinute() * 100) + time.getSecond();
+        return toHHMMSS(time.getHour(), time.getMinute(), time.getSecond());
+    }
+
+    @SuppressWarnings("deprecation")
+    public static int fromSqlDate(final Date date) {
+        // e.g. date.toLocalDate()
+        return toYYYMMDD(date.getYear() + 1900, date.getMonth() + 1, date.getDate());
+    }
+
+    public static LocalTime toLocalTime(int hhMMss) {
+        final int hours = hhMMss / 10000;
+        final int minutes = (hhMMss / 100) % 100;
+        final int seconds = hhMMss % 100;
+        return LocalTime.of(hours, minutes, seconds);
+    }
+
+    public static int toYYYMMDD(final int year, final int month, final int day) {
+        return (year * 10000) + (month * 100) + day;
+    }
+
+    public static int toHHMMSS(final int hour, final int minute, final int second) {
+        return (hour * 10000) + (minute * 100) + second;
     }
 }
