@@ -1,6 +1,6 @@
 module com.bytefacets.collections {
     requires static com.github.spotbugs.annotations;
-    requires java.xml;
+    requires java.sql;
 
     exports com.bytefacets.collections.arrays;
     exports com.bytefacets.collections.bi;

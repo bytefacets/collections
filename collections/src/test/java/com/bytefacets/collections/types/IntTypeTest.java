@@ -162,5 +162,15 @@ class IntTypeTest {
         void shouldConvertLocalTimeToInt() {
             assertThat(IntType.convert(LocalTime.of(20, 5, 13)), equalTo(200513));
         }
+
+        @Test
+        void shouldConvertIntToLocalDate() {
+            assertThat(IntType.toLocalDate(20150412), equalTo(LocalDate.of(2015, 4, 12)));
+        }
+
+        @Test
+        void shouldConvertIntToLocalTime() {
+            assertThat(IntType.toLocalTime(200513), equalTo(LocalTime.of(20, 5, 13)));
+        }
     }
 }
