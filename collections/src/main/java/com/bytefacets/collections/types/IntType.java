@@ -149,7 +149,7 @@ public final class IntType {
         return toYYYMMDD(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
     }
 
-    public static LocalDate toLocalDate(int yyyyMMdd) {
+    public static LocalDate toLocalDate(final int yyyyMMdd) {
         final int year = yyyyMMdd / 10000;
         final int month = (yyyyMMdd / 100) % 100;
         final int day = yyyyMMdd % 100;
@@ -166,7 +166,7 @@ public final class IntType {
         return toYYYMMDD(date.getYear() + 1900, date.getMonth() + 1, date.getDate());
     }
 
-    public static LocalTime toLocalTime(int hhMMss) {
+    public static LocalTime toLocalTime(final int hhMMss) {
         final int hours = hhMMss / 10000;
         final int minutes = (hhMMss / 100) % 100;
         final int seconds = hhMMss % 100;
