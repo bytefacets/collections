@@ -90,7 +90,8 @@ public final class ${type.name}Array {
 
     /**
      * If the size is larger than the given array, a copy is created with a new size that can
-     * accommodate the size. The growth formula is a doubling growth.
+     * accommodate the size. The growth formula is a doubling growth. If the original array is
+     * 0-length, the array is grown as if it were size 1.
      */
     public static ${generics} ${type.javaType}[] ensureSize(final ${type.javaType}[] array, final int size) {
         if(size > array.length) {
@@ -102,7 +103,8 @@ public final class ${type.name}Array {
     /**
      * If the size is larger than the given array, a copy is created with a new size that can
      * accommodate the size, and the new indexes are filled with the default value. The growth
-     * formula is a doubling growth.
+     * formula is a doubling growth. If the original array is 0-length, the array is grown as if
+     * it were size 1.
      */
     public static ${generics} ${type.javaType}[] ensureSize(final ${type.javaType}[] array, final int size, final ${type.javaType} initialValue) {
         if(size > array.length) {
@@ -113,7 +115,8 @@ public final class ${type.name}Array {
 
     /**
      * If the entry/index is not within the bounds of the given array, a copy is created with a
-     * new size that can accommodate the entry. The growth formula is a doubling growth.
+     * new size that can accommodate the entry. The growth formula is a doubling growth. If the
+     * original array is 0-length, the array is grown as if it were size 1.
      */
     public static ${generics} ${type.javaType}[] ensureEntry(final ${type.javaType}[] array, final int entry) {
         return ensureSize(array, entry + 1);
@@ -122,15 +125,22 @@ public final class ${type.name}Array {
     /**
      * If the entry/index is not within the bounds of the given array, a copy is created with a
      * new size that can accommodate the entry, and the new indexes are filled with the default
-     * value. The growth formula is a doubling growth.
+     * value. The growth formula is a doubling growth. If the original array is 0-length, the
+     * array is grown as if it were size 1.
      */
     public static ${generics} ${type.javaType}[] ensureEntry(final ${type.javaType}[] array, final int entry, final ${type.javaType} initialValue) {
         return ensureSize(array, entry + 1, initialValue);
     }
 
-    /** Doubles the size until it accommodates the necessarySize. */
+    /**
+     * Doubles the size until it accommodates the necessarySize. If the currentLength is 0, it will
+     * grow from 1.
+     */
     private static int grow(final int necessarySize, final int currentLength) {
         int newLength = currentLength;
+        if(newLength == 0) {
+            newLength = 1;
+        }
         while(newLength < necessarySize) {
             newLength <<= 1;
         }
