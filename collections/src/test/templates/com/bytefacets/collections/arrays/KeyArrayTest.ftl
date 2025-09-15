@@ -120,6 +120,12 @@ class ${type.name}ArrayTest {
         void shouldReturnSameInstanceWhenNotGrowing() {
             assertThat(${arrayClass}.ensureEntry(array5, 4), sameInstance(array5));
         }
+
+        @Test
+        void shouldGrowFromZero() {
+            final var array0 = ${arrayClass}.create(0);
+            assertThat(${arrayClass}.ensureEntry(array0, 4).length, equalTo(8));
+        }
     }
 
 }
