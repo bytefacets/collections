@@ -49,6 +49,14 @@ class ${type.name}ChunkStoreTest {
         assertThat(get(3), equalTo(value));
     }
 
+    @Test
+    void shouldGrowAtCapacity() {
+        final var value = convert("7");
+        final int index = store.getCapacity();
+        set(index, value);
+        assertThat(get(index), equalTo(value));
+    }
+
     @ParameterizedTest
     @CsvSource({"6,8","11,12","41,44"})
     void shouldGrowToAccommodateNewIndex(final int index, final int expectedCapacity) {

@@ -50,7 +50,7 @@ public final class ${type.name}ChunkStore${generics} implements ${type.name}Stor
     @Override
     public void set${type.name}(final int index, final ${type.javaType} value) {
         if(index >= capacity) {
-            grow(index);
+            grow(index+1);
         }
         limit = Math.max(limit, index);
         final int offset = index & chunkMask;
