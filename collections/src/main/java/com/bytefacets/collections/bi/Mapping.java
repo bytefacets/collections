@@ -7,6 +7,13 @@ import static java.util.Objects.requireNonNull;
 import com.bytefacets.collections.functional.IntConsumer;
 import com.bytefacets.collections.functional.IntIterator;
 
+/**
+ * The mapping of a key from a CompactOneToMany or CompactManyToMany. This is reused
+ * within the collection but is reset when the caller wants to interrogate a key.
+ *
+ * @see CompactOneToMany
+ * @see CompactManyToMany
+ */
 public final class Mapping {
     private final Side side;
     private final Side.EntryIterator entryIterator;

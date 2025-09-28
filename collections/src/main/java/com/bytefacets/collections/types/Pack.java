@@ -1,8 +1,8 @@
+// SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
+// SPDX-License-Identifier: MIT
 package com.bytefacets.collections.types;
 
-public final class // SPDX-FileCopyrightText: Copyright (c) 2025 Byte Facets
-// SPDX-License-Identifier: MIT
-Pack {
+public final class Pack {
     private Pack() {}
 
     public static long packToLong(final int hi, final int lo) {

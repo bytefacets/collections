@@ -7,6 +7,12 @@ import static com.bytefacets.collections.bi.CompactOneToMany.UNSET;
 import com.bytefacets.collections.arrays.IntArray;
 import com.bytefacets.collections.functional.IntIterator;
 
+/**
+ * One side of a CompactOneToMany or CompactManyToMany.
+ *
+ * @see CompactOneToMany
+ * @see CompactManyToMany
+ */
 public final class Side {
     private int[] heads;
     private int[] nexts;

@@ -1,5 +1,5 @@
 /**
- *
+ * Functional interfaces primary for primitives.
  *
  * <ul>
  *   <li>*Consumer

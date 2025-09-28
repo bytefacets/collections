@@ -32,7 +32,6 @@ public class ${key.name}${value.name}CompanionSortTest {
         assertAscendingSort(primary, secondary);
     }
 
-
     @Test
     void shouldSortDescendingSmallerSize() {
         produceArrays(7);
@@ -123,12 +122,6 @@ public class ${key.name}${value.name}CompanionSortTest {
             prevP = primary[ i];
             prevS = secondary[i];
         }
-    }
-
-    private ${key.arrayType}[] produceWithDuplicates(int size) {
-        ${key.arrayType}[] array = new ${key.arrayType}[size];
-        for(int i = 0; i < size; i++) array[i] = castK((size-i+1)%7);
-        return array;
     }
 
     private ${key.arrayType} castK(int key) {
