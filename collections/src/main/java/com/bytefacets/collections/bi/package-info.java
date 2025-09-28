@@ -1,4 +1,2 @@
-/**
- * Bidirectional collections: CompactOneToMany and CompactManyToMany.
- */
+/** Bidirectional collections: CompactOneToMany and CompactManyToMany. */
 package com.bytefacets.collections.bi;
