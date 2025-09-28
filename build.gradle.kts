@@ -129,6 +129,10 @@ subprojects {
             trimTrailingWhitespace()
             endWithNewline()
             toggleOffOn("formatting:off", "formatting:on")
+            licenseHeaderFile(
+                rootProject.file("config/spotless/spdx-header.txt"),
+                "package "
+            )
         }
     }
 
