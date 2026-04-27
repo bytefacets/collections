@@ -64,7 +64,7 @@ final class ManyToManyExample {
         school.updateClass("Civics", "Mrs. Carlson");
     }
 
-    private static class School {
+    private static final class School {
         private final StringIndexedSet students = new StringIndexedSet(16);
         private final StringStringIndexedMap classToTeacher = new StringStringIndexedMap(16);
         private final CompactManyToMany registrations = new CompactManyToMany();
