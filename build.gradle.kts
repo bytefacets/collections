@@ -3,8 +3,8 @@ plugins {
     `bytefacets-publishing-convention` apply false
     `bytefacets-central-portal-publishing-convention`
     id("pl.allegro.tech.build.axion-release") version "1.18.18" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
-    id("com.github.spotbugs") version "6.0.25"                  // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-gradle-plugin
-    id("com.diffplug.spotless") version "6.19.0"                 // https://mvnrepository.com/artifact/com.diffplug.spotless/spotless-plugin-gradle
+    id("com.github.spotbugs") version "6.4.12"                  // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-gradle-plugin
+    id("com.diffplug.spotless") version "8.4.0"                 // https://mvnrepository.com/artifact/com.diffplug.spotless/spotless-plugin-gradle
 }
 gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
 group = "com.bytefacets"
@@ -24,8 +24,8 @@ allprojects {
     java {
         withSourcesJar()
 
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
     }
 
     repositories {
@@ -62,18 +62,18 @@ subprojects {
     project.version = project.parent?.version!!
 
     extra.apply {
-        set("guavaVersion", "31.0.1-jre")
-        set("findbugsVersion", "4.7.3")
-        set("spotbugsVersion", "4.8.6")
+        set("guavaVersion", "33.5.0-jre")
+        set("findbugsVersion", "4.9.8")
+        set("spotbugsVersion", "4.9.4")
     }
 
     val spotbugsVersion: String by extra
     val findbugsVersion: String by extra
     val guavaVersion: String by extra
-    val junitVersion = "5.7.0"
+    val junitVersion = "5.11.4"
     val hamcrestVersion = "2.2"
     val mockitoVersion = "3.12.4"
-    val junitPioneerVersion = "0.9.0"
+    val junitPioneerVersion = "2.3.0"
 
     val mockitoAgent = configurations.create("mockitoAgent")
     dependencies {
@@ -122,7 +122,7 @@ subprojects {
     spotless {
         java {
             target("src/main/java/**/*.java", "src/test/java/**/*.java")
-            googleJavaFormat("1.25.2").aosp()
+            googleJavaFormat("1.35.0").aosp()
             indentWithSpaces()
             importOrder()
             removeUnusedImports()
