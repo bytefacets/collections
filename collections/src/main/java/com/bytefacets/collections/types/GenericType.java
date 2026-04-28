@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: MIT
 package com.bytefacets.collections.types;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Objects;
 
 public final class GenericType {
@@ -24,9 +23,6 @@ public final class GenericType {
     public static final Cmp Desc = (a, b) -> nullableCompare(b, a);
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    @SuppressFBWarnings(
-            value = "ES_COMPARING_PARAMETER_STRING_WITH_EQ",
-            justification = "this is a short-circuit for identity and null comparison")
     private static int nullableCompare(final Object a, final Object b) {
         if (a == b) {
             return 0;

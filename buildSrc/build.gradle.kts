@@ -9,19 +9,19 @@ repositories {
 
 val jvmTargetVer = JavaLanguageVersion.of(17)
 
-java {
-    toolchain.languageVersion.set(jvmTargetVer)
-}
-
 kotlin {
-    jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(jvmTargetVer)
+    jvmToolchain(25)
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25)
+        // free compiler args
+        freeCompilerArgs.addAll(listOf("-Xjsr305=strict"))
     }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = "$jvmTargetVer"
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25)
+        freeCompilerArgs.addAll(listOf("-Xjsr305=strict"))
     }
 }
 

@@ -5,7 +5,6 @@ package com.bytefacets.collections.types;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
@@ -103,7 +102,6 @@ class FloatTypeTest {
     }
 
     @Nested
-    @SuppressFBWarnings({"SIC_THREADLOCAL_DEADLY_EMBRACE", "SIC_INNER_SHOULD_BE_STATIC"})
     class ConvertTests {
         @Test
         void shouldConvertNumbers() {

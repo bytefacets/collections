@@ -28,7 +28,7 @@ final class InvertedIndexExample {
         System.out.println();
     }
 
-    private static class InvertedIndex {
+    private static final class InvertedIndex {
         // range transformation for orders ids which are longs
         private final LongIndexedSet orders = new LongIndexedSet(128);
         // range transformation for terms

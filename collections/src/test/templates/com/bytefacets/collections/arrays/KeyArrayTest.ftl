@@ -9,7 +9,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.sameInstance;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import com.bytefacets.collections.types.${typeClass};
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -47,7 +46,6 @@ class ${type.name}ArrayTest {
     }
 
     @Nested
-    @SuppressFBWarnings("SIC_THREADLOCAL_DEADLY_EMBRACE")
     class EnsureSizeTests {
         @Test
         void shouldGrowToEnsureSize() {
@@ -85,7 +83,6 @@ class ${type.name}ArrayTest {
     }
 
     @Nested
-    @SuppressFBWarnings("SIC_THREADLOCAL_DEADLY_EMBRACE")
     class EnsureEntryTests {
         @Test
         void shouldGrowToEnsureEntry() {
