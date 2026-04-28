@@ -2,8 +2,11 @@
 // SPDX-License-Identifier: MIT
 package com.bytefacets.collections.types;
 
+import java.lang.foreign.ValueLayout;
+
 public final class ShortType {
     public static final short DEFAULT = 0;
+    public static final ValueLayout.OfShort VALUE_LAYOUT = ValueLayout.JAVA_SHORT;
 
     private ShortType() {}
 

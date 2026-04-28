@@ -11,6 +11,7 @@ That they are primitive based is an obvious benefit over the standard JDK collec
 main advantages here are around memory:
 - primitive types use less memory than Objects
 - using fewer Objects reduces work for the garbage collector
+- better cache locality when members of the collection
 
 For example, a typical set like the IntIndexedSet, which is very much like a hash set uses
 only 5 objects (3 int[], a hash function reference, and a equality function reference).
@@ -18,6 +19,10 @@ only 5 objects (3 int[], a hash function reference, and a equality function refe
 The *IndexedSet collections are hash-table-based, so perform slightly worse than the FastUtil 
 primitive collections which use open hashing. The trade-off is the stability of where
 the key resides during resizing operations, an important aspect of the next feature. 
+
+Note that you won't see the collections' Java implementations in the repository because they
+are generated using FreeMarker [templates](collections/src/main/templates/com/bytefacets/collections/) 
+as are their [tests](collections/src/test/templates/com/bytefacets/collections). 
 
 ### Indexed-Enabled
 Several of the collections in the library produce an "entry" when an element is added to them.
@@ -43,7 +48,6 @@ The heap implementation is map-like so that you can associate a value with the o
 Another difference with the JDK PriorityQueue is that with the ByteFacets Heap, you can store
 an element's entry in the heap for direct access.
 
-
 #### CompactOneToMany, CompactManyToMany
 These collections offer relationship mapping and navigability. "Compact" here means that the 
 collection is most efficient when left and right entries are 0-based integers due their use of 
@@ -52,8 +56,8 @@ the set and map collections to provide a mechanism to track relationships betwee
 collections.
 
 #### Store, MatrixStore
-The stores provide a simple index-based abstraction for storing values, in this case arrays, but 
-in could be off-heap memory, via new jdk-21 features or through something like Apache Arrow. 
+The stores provide a simple index-based abstraction for storing values, either in arrays in heap memory,
+or in off-heap memory, via jdk-25 features, or you could store in something like Apache Arrow. 
 *Store types handle growing to accommodate new indecies. If Chunked, the store will also grow 
 efficiently by extending the storage in blocks, reusing existing blocks in the new structure. 
 

@@ -2,8 +2,11 @@
 // SPDX-License-Identifier: MIT
 package com.bytefacets.collections.types;
 
+import java.lang.foreign.ValueLayout;
+
 public final class LongType {
     public static final long DEFAULT = 0;
+    public static final ValueLayout.OfLong VALUE_LAYOUT = ValueLayout.JAVA_LONG;
 
     private LongType() {}
 

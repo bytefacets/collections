@@ -13,6 +13,61 @@ import java.util.stream.Stream;
  * This is a small example using the CompactManyToMany to record class-to-student relationships.
  * Classes have many students, and students have many classes, and we can navigate either side of
  * the relationship.
+ * <p/>
+ * Example output:<p/>
+ * <pre>
+ * English taught by Mr. Fletcher
+ * Science taught by Mrs. White
+ * Latin taught by Mr. Wilson
+ * Math taught by Mr. Cooper
+ * History taught by Mrs. Barber
+ * Civics taught by Mrs. Carlson
+ * Enrolling Sujith Kalra in Science
+ * Enrolling Sujith Kalra in History
+ * Enrolling Jose Garcia in English
+ * Enrolling Jose Garcia in Math
+ * Enrolling Suneeta Kumar in Science
+ * Enrolling Suneeta Kumar in History
+ * Enrolling Igor Chekov in English
+ * Enrolling Igor Chekov in Science
+ * Enrolling Sasha Petrovich in Science
+ * Enrolling Sasha Petrovich in Math
+ * Enrolling Alex Pedersen in English
+ * Enrolling Alex Pedersen in Civics
+ * Enrolling Rachel Schwartz in Latin
+ * Enrolling Rachel Schwartz in History
+ * Enrolling Luke Jorgens in History
+ * Enrolling Luke Jorgens in Civics
+ * Enrolling Jennifer O'Brian in Science
+ * Enrolling Jennifer O'Brian in Latin
+ * Enrolling Mary Johnson in Math
+ * Enrolling Mary Johnson in Civics
+ * Civics (3) taught by Mrs. Carlson:
+ *    Mary Johnson
+ *    Luke Jorgens
+ *    Alex Pedersen
+ *
+ * History (4) taught by Mrs. Barber:
+ *    Luke Jorgens
+ *    Rachel Schwartz
+ *    Suneeta Kumar
+ *    Sujith Kalra
+ *
+ * Changing teachers.... History taught by Mr. Parker
+ * History (4) taught by Mr. Parker:
+ *    Luke Jorgens
+ *    Rachel Schwartz
+ *    Suneeta Kumar
+ *    Sujith Kalra
+ *
+ * Suneeta Kumar (2):
+ *    History taught by Mr. Parker
+ *    Science taught by Mrs. White
+ *
+ * Luke Jorgens (2):
+ *    Civics taught by Mrs. Carlson
+ *    History taught by Mr. Parker
+ * </pre>
  */
 final class ManyToManyExample {
     private static final String[] CLASSES =

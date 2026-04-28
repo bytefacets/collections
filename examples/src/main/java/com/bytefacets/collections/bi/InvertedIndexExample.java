@@ -6,7 +6,43 @@ import com.bytefacets.collections.functional.LongConsumer;
 import com.bytefacets.collections.hash.LongIndexedSet;
 import com.bytefacets.collections.hash.StringIndexedSet;
 
-/** This is a small example using the CompactOneToMany to implement a small inverted index. */
+/**
+ * This is a small example using the CompactOneToMany to implement a small inverted index.
+ * <p/>
+ * Example output:<p/>
+ * <pre>
+ * Adding 1000000: symbol=YHOO, strategy=TWAP
+ * Adding 1000001: symbol=CSCO, strategy=VWAP
+ * Adding 1000002: symbol=MSFT, strategy=POV
+ * Adding 1000003: symbol=AAPL, strategy=TWAP
+ * Adding 1000004: symbol=YHOO, strategy=VWAP
+ * Adding 1000005: symbol=CSCO, strategy=POV
+ * Adding 1000006: symbol=MSFT, strategy=TWAP
+ * Adding 1000007: symbol=AAPL, strategy=VWAP
+ * Adding 1000008: symbol=YHOO, strategy=POV
+ * Adding 1000009: symbol=CSCO, strategy=TWAP
+ * Adding 1000010: symbol=MSFT, strategy=VWAP
+ * Adding 1000011: symbol=AAPL, strategy=POV
+ * Adding 1000012: symbol=YHOO, strategy=TWAP
+ * Adding 1000013: symbol=CSCO, strategy=VWAP
+ * Adding 1000014: symbol=MSFT, strategy=POV
+ * Adding 1000015: symbol=AAPL, strategy=TWAP
+ * Adding 1000016: symbol=YHOO, strategy=VWAP
+ * Adding 1000017: symbol=CSCO, strategy=POV
+ * Adding 1000018: symbol=MSFT, strategy=TWAP
+ * Adding 1000019: symbol=AAPL, strategy=VWAP
+ * Adding 1000020: symbol=YHOO, strategy=POV
+ * Adding 1000021: symbol=CSCO, strategy=TWAP
+ * Adding 1000022: symbol=MSFT, strategy=VWAP
+ * Adding 1000023: symbol=AAPL, strategy=POV
+ * Adding 1000024: symbol=YHOO, strategy=TWAP
+ * Adding 1000025: symbol=CSCO, strategy=VWAP
+ * Adding 1000026: symbol=MSFT, strategy=POV
+ * MSFT (7):1000026 1000022 1000018 1000014 1000010 1000006 1000002
+ * XFOO (0):
+ * VWAP (9):1000025 1000022 1000019 1000016 1000013 1000010 1000007 1000004 1000001
+ * </pre>
+ */
 final class InvertedIndexExample {
     private InvertedIndexExample() {}
 
@@ -29,9 +65,9 @@ final class InvertedIndexExample {
     }
 
     private static final class InvertedIndex {
-        // range transformation for orders ids which are longs
+        // range transformation for orders ids which are longs, turning them into compact ints
         private final LongIndexedSet orders = new LongIndexedSet(128);
-        // range transformation for terms
+        // range transformation for terms, turning them into compact ints
         private final StringIndexedSet terms = new StringIndexedSet(128);
         // the index associating the term with the order entry
         private final CompactOneToMany index = new CompactOneToMany(128, 128, true);

@@ -2,8 +2,11 @@
 // SPDX-License-Identifier: MIT
 package com.bytefacets.collections.types;
 
+import java.lang.foreign.ValueLayout;
+
 public final class DoubleType {
     public static final double DEFAULT = 0;
+    public static final ValueLayout.OfDouble VALUE_LAYOUT = ValueLayout.JAVA_DOUBLE;
 
     private DoubleType() {}
 

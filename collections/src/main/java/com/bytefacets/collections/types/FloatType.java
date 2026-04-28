@@ -2,8 +2,11 @@
 // SPDX-License-Identifier: MIT
 package com.bytefacets.collections.types;
 
+import java.lang.foreign.ValueLayout;
+
 public final class FloatType {
     public static final float DEFAULT = 0;
+    public static final ValueLayout.OfFloat VALUE_LAYOUT = ValueLayout.JAVA_FLOAT;
 
     private FloatType() {}
 

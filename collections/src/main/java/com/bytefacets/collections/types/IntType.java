@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: MIT
 package com.bytefacets.collections.types;
 
+import java.lang.foreign.ValueLayout;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
 public final class IntType {
     public static final int DEFAULT = 0;
+    public static final ValueLayout.OfInt VALUE_LAYOUT = ValueLayout.JAVA_INT;
 
     private IntType() {}
 

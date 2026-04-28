@@ -2,10 +2,13 @@
 // SPDX-License-Identifier: MIT
 package com.bytefacets.collections.types;
 
+import java.lang.foreign.ValueLayout;
+
 public final class CharType {
     public static final char DEFAULT = 0;
     public static final char TRUE = 't';
     public static final char FALSE = 'f';
+    public static final ValueLayout.OfChar VALUE_LAYOUT = ValueLayout.JAVA_CHAR;
 
     private CharType() {}
 
