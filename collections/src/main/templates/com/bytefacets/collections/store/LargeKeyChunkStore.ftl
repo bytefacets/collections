@@ -13,9 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A store for ${type.javaType} values which are stored in array "chunks". Using chunks is
- * especially beneficial for resizing because only new chunks need to be allocated and the
- * copying is at the chunk level.
+ * A store for ${type.javaType} values which are stored in MemorySegment "chunks". Using chunks is
+ * especially beneficial for resizing because only new chunks need to be allocated.
  */
 public final class Large${type.name}ChunkStore${generics} implements Large${type.name}Store${generics} {
     private final Arena arena;

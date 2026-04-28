@@ -16,9 +16,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * A matrix store for ${type.javaType} values which are stored in array "chunks". Using chunks is
- * especially beneficial for resizing because only new chunks need to be allocated and the
- * copying is at the chunk level.
+ * A matrix store for ${type.javaType} values which are stored in MemorySegment "chunks". Using chunks is
+ * especially beneficial for resizing because only new chunks need to be allocated.
  */
 public final class Large${type.name}ChunkMatrixStore${generics} implements Large${type.name}MatrixStore${generics} {
     private final Arena arena;
