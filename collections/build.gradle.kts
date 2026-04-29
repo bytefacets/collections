@@ -5,15 +5,41 @@ plugins {
 
 apply(plugin = "com.bytefacets.template_processor")
 
+tasks.test {
+    useJUnitPlatform {
+        excludeTags("large")
+    }
+}
+
+tasks.register<Test>("largeTests") {
+    useJUnitPlatform {
+        includeTags("large")
+    }
+    maxParallelForks = 1
+}
+
 template_processor {
     main {
         excludedFiles.set(listOf(
             "BoolIndexedCollection.java",
             "BaseBoolHeap.java",
             "BaseBoolIndex.java",
-            "BoolIndexedSet.java"))
+            "BoolIndexedSet.java",
+            "LargeStringStore.java",
+            "LargeGenericStore.java",
+            "LargeStringMatrixStore.java",
+            "LargeGenericMatrixStore.java",
+            "LargeStringChunkMatrixStore.java",
+            "LargeGenericChunkMatrixStore.java",
+            "LargeStringChunkStore.java",
+            "LargeGenericChunkStore.java"))
     }
     test {
-        excludedFiles.set(listOf("BoolIndexedSetTest.java"))
+        excludedFiles.set(listOf(
+            "BoolIndexedSetTest.java",
+            "LargeStringChunkMatrixStoreTest.java",
+            "LargeGenericChunkMatrixStoreTest.java",
+            "LargeStringChunkStoreTest.java",
+            "LargeGenericChunkStoreTest.java"))
     }
 }

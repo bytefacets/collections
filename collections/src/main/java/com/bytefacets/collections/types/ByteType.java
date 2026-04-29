@@ -2,8 +2,11 @@
 // SPDX-License-Identifier: MIT
 package com.bytefacets.collections.types;
 
+import java.lang.foreign.ValueLayout;
+
 public final class ByteType {
     public static final byte DEFAULT = 0;
+    public static final ValueLayout.OfByte VALUE_LAYOUT = ValueLayout.JAVA_BYTE;
 
     private ByteType() {}
 

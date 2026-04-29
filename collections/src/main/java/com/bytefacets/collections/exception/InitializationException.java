@@ -13,4 +13,11 @@ public final class InitializationException extends RuntimeException {
                     String.format("%s must be >= %d, but was %d", field, minValid, value));
         }
     }
+
+    public static void assertMinimum(final long minValid, final long value, final String field) {
+        if (value < minValid) {
+            throw new InitializationException(
+                    String.format("%s must be >= %d, but was %d", field, minValid, value));
+        }
+    }
 }

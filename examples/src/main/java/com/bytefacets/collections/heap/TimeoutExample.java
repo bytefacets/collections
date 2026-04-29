@@ -13,6 +13,33 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * <p>The example uses standard JDK threading to coordinate the arrival, acknowledgement, and
  * timeouts.
+ *
+ * <p>Example output:
+ *
+ * <p>
+ *
+ * <pre>
+ * registering 0 expecting to timeout at 1777385240032
+ * acknowledged: 40
+ * registering 50 expecting to timeout at 1777385240532
+ * acknowledged: 50
+ * acknowledged: 80
+ * registering 100 expecting to timeout at 1777385241032
+ * acknowledged: 120
+ * registering 150 expecting to timeout at 1777385241532
+ * 1777385240033 timeout observed for item 0, 1ms past due
+ * acknowledged: 170
+ * registering 200 expecting to timeout at 1777385242033
+ * 1777385240533 timeout observed for item 50, 1ms past due
+ * acknowledged: 210
+ * acknowledged: 240
+ * registering 250 expecting to timeout at 1777385242533
+ * acknowledged: 250
+ * 1777385241033 timeout observed for item 100, 1ms past due
+ * acknowledged: 280
+ * registering 300 expecting to timeout at 1777385243032
+ * 1777385241533 timeout observed for item 150, 1ms past due
+ * </pre>
  */
 final class TimeoutExample {
     private static final long DEFAULT_WAIT_MS = 100;
@@ -35,14 +62,15 @@ final class TimeoutExample {
         // something that will register new items
         final ItemArrival itemArrival = new ItemArrival(manager, acknowledger);
 
-        final var pool = Executors.newScheduledThreadPool(2);
-        // push new items into the "system"
-        pool.scheduleAtFixedRate(itemArrival::newItemArrived, 1, 10, TimeUnit.MILLISECONDS);
-        // acknowledge the items we decided
-        pool.scheduleAtFixedRate(acknowledger::acknowledgeNext, 1, 37, TimeUnit.MILLISECONDS);
-        // emit "timeouts" on anything that lingers too long
-        new Thread(manager).start();
-        latch.await(); // wait for 4 things to timeout
+        try (var pool = Executors.newScheduledThreadPool(2)) {
+            // push new items into the "system"
+            pool.scheduleAtFixedRate(itemArrival::newItemArrived, 1, 10, TimeUnit.MILLISECONDS);
+            // acknowledge the items we decided
+            pool.scheduleAtFixedRate(acknowledger::acknowledgeNext, 1, 37, TimeUnit.MILLISECONDS);
+            // emit "timeouts" on anything that lingers too long
+            new Thread(manager).start();
+            latch.await(); // wait for 4 things to timeout
+        }
     }
 
     private static final class ItemArrival {

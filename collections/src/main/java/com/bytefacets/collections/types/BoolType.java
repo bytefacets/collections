@@ -2,8 +2,11 @@
 // SPDX-License-Identifier: MIT
 package com.bytefacets.collections.types;
 
+import java.lang.foreign.ValueLayout;
+
 public final class BoolType {
     public static final boolean DEFAULT = false;
+    public static final ValueLayout.OfBoolean VALUE_LAYOUT = ValueLayout.JAVA_BOOLEAN;
 
     private BoolType() {}
 
