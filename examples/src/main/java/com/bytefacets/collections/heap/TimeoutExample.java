@@ -13,8 +13,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * <p>The example uses standard JDK threading to coordinate the arrival, acknowledgement, and
  * timeouts.
- * <p/>
- * Example output:<p/>
+ *
+ * <p>Example output:
+ *
+ * <p>
+ *
  * <pre>
  * registering 0 expecting to timeout at 1777385240032
  * acknowledged: 40
@@ -59,7 +62,7 @@ final class TimeoutExample {
         // something that will register new items
         final ItemArrival itemArrival = new ItemArrival(manager, acknowledger);
 
-        try(var pool = Executors.newScheduledThreadPool(2)) {
+        try (var pool = Executors.newScheduledThreadPool(2)) {
             // push new items into the "system"
             pool.scheduleAtFixedRate(itemArrival::newItemArrived, 1, 10, TimeUnit.MILLISECONDS);
             // acknowledge the items we decided

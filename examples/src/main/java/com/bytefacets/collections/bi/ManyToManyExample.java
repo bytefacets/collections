@@ -13,8 +13,11 @@ import java.util.stream.Stream;
  * This is a small example using the CompactManyToMany to record class-to-student relationships.
  * Classes have many students, and students have many classes, and we can navigate either side of
  * the relationship.
- * <p/>
- * Example output:<p/>
+ *
+ * <p>Example output:
+ *
+ * <p>
+ *
  * <pre>
  * English taught by Mr. Fletcher
  * Science taught by Mrs. White

@@ -8,8 +8,11 @@ import com.bytefacets.collections.hash.StringIndexedSet;
 
 /**
  * This is a small example using the CompactOneToMany to implement a small inverted index.
- * <p/>
- * Example output:<p/>
+ *
+ * <p>Example output:
+ *
+ * <p>
+ *
  * <pre>
  * Adding 1000000: symbol=YHOO, strategy=TWAP
  * Adding 1000001: symbol=CSCO, strategy=VWAP
