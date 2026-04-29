@@ -13,10 +13,12 @@ import com.bytefacets.collections.exception.RangeCheckException;
 
 <#if !type.generic>import com.bytefacets.collections.types.${typeClass};</#if>
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+@Tag("large")
 class Large${type.name}ChunkMatrixStoreTest {
     private static final int CHUNK_SIZE = 16;
     private static final int NUM_FIELDS = 3;

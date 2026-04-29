@@ -10,10 +10,12 @@ import static org.hamcrest.Matchers.equalTo;
 
 <#if !type.generic>import com.bytefacets.collections.types.${typeClass};</#if>
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+@Tag("large")
 class Large${type.name}ChunkStoreTest {
 <#if type.generic>
     private final Large${type.name}ChunkStore<String> store = new Large${type.name}ChunkStore<>(5, 4);

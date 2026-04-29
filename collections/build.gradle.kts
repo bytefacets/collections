@@ -5,6 +5,19 @@ plugins {
 
 apply(plugin = "com.bytefacets.template_processor")
 
+tasks.test {
+    useJUnitPlatform {
+        excludeTags("large")
+    }
+}
+
+tasks.register<Test>("largeTests") {
+    useJUnitPlatform {
+        includeTags("large")
+    }
+    maxParallelForks = 1
+}
+
 template_processor {
     main {
         excludedFiles.set(listOf(
