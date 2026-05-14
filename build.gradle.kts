@@ -2,9 +2,10 @@ plugins {
     java
     `bytefacets-publishing-convention` apply false
     `bytefacets-central-portal-publishing-convention`
-    id("pl.allegro.tech.build.axion-release") version "1.18.18" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
+    id("pl.allegro.tech.build.axion-release") version "1.21.1" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
     id("com.github.spotbugs") version "6.4.12"                  // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-gradle-plugin
     id("com.diffplug.spotless") version "8.4.0"                 // https://mvnrepository.com/artifact/com.diffplug.spotless/spotless-plugin-gradle
+    checkstyle
 }
 gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
 group = "com.bytefacets"
@@ -50,6 +51,10 @@ allprojects {
             java.srcDir(layout.projectDirectory.dir("src/test/generated"))
         }
     }
+
+    checkstyle {
+        toolVersion = "13.4.2"
+    }
 }
 
 subprojects {
@@ -64,7 +69,7 @@ subprojects {
     extra.apply {
         set("guavaVersion", "33.5.0-jre")
         set("findbugsVersion", "4.9.8")
-        set("spotbugsVersion", "4.9.4")
+        set("spotbugsVersion", "4.9.8")
     }
 
     val spotbugsVersion: String by extra
