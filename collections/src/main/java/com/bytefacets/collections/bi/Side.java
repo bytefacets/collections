@@ -35,9 +35,9 @@ public final class Side {
 
     void insertEntry(final int key, final int entry) {
         ensureKey(key);
+        ensureEntry(entry); // not needed now if it's a new head, but would be accessed in remove
         final int oldHead = heads[key];
         if (oldHead != UNSET) {
-            ensureEntry(entry);
             nexts[entry] = oldHead; // prepend
             prevs[oldHead] = entry;
         }

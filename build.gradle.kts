@@ -2,7 +2,6 @@ plugins {
     java
     `bytefacets-publishing-convention` apply false
     `bytefacets-central-portal-publishing-convention`
-    id("pl.allegro.tech.build.axion-release") version "1.21.1" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
     id("com.github.spotbugs") version "6.4.12"                  // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-gradle-plugin
     id("com.diffplug.spotless") version "8.4.0"                 // https://mvnrepository.com/artifact/com.diffplug.spotless/spotless-plugin-gradle
     checkstyle
@@ -21,6 +20,10 @@ allprojects {
     apply(plugin = "checkstyle")
     apply(plugin = "com.diffplug.spotless")
     apply(plugin = "com.github.spotbugs")
+
+    checkstyle {
+        toolVersion = "13.10.0"
+    }
 
     java {
         withSourcesJar()
@@ -51,10 +54,6 @@ allprojects {
             java.srcDir(layout.projectDirectory.dir("src/test/generated"))
         }
     }
-
-    checkstyle {
-        toolVersion = "13.4.2"
-    }
 }
 
 subprojects {
@@ -67,31 +66,43 @@ subprojects {
     project.version = project.parent?.version!!
 
     extra.apply {
-        set("guavaVersion", "33.5.0-jre")
-        set("findbugsVersion", "4.9.8")
-        set("spotbugsVersion", "4.9.8")
+        set("logbackVersion", "1.6.2")       // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+        set("slfApiVersion", "2.0.18")        // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+        set("spotbugsVersion", "4.10.3")
     }
 
-    val spotbugsVersion: String by extra
-    val findbugsVersion: String by extra
-    val guavaVersion: String by extra
-    val junitVersion = "5.11.4"
+    val spotbugsVersion = extra["spotbugsVersion"] as String
+    val logbackVersion = extra["logbackVersion"] as String
+    val slfApiVersion = extra["slfApiVersion"] as String
+    val junitVersion = "5.13.4"
     val hamcrestVersion = "2.2"
-    val mockitoVersion = "3.12.4"
-    val junitPioneerVersion = "2.3.0"
+    val mockitoVersion = "5.23.0" // https://mvnrepository.com/artifact/org.mockito/mockito-core
+    val jakartaAnnotationVersion = "2.1.1"
 
     val mockitoAgent = configurations.create("mockitoAgent")
     dependencies {
-        spotbugs("com.github.spotbugs:spotbugs:${spotbugsVersion}")
-        implementation("com.github.spotbugs:spotbugs-annotations:${findbugsVersion}")
+        compileOnly("com.github.spotbugs:spotbugs-annotations:${spotbugsVersion}")
+        compileOnly("org.slf4j:slf4j-api:${slfApiVersion}")
+        implementation("jakarta.annotation:jakarta.annotation-api:${jakartaAnnotationVersion}")
+
+        testImplementation("org.slf4j:slf4j-api:${slfApiVersion}")
+        testImplementation("ch.qos.logback:logback-classic:${logbackVersion}")
 
         testImplementation("org.mockito:mockito-junit-jupiter:${mockitoVersion}")
         testImplementation("org.hamcrest:hamcrest:${hamcrestVersion}")
-        testImplementation("com.google.guava:guava-testlib:${guavaVersion}")
-        testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
-        testImplementation("org.junit.jupiter:junit-jupiter-params:${junitVersion}")
-        testImplementation("org.junit-pioneer:junit-pioneer:${junitPioneerVersion}")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+        testImplementation(platform("org.junit:junit-bom:${junitVersion}"))
+        testImplementation("org.junit.jupiter:junit-jupiter")
+        testImplementation("org.junit.jupiter:junit-jupiter-params")
+
+        // Explicitly align the launcher with the engine version from the BOM.
+        // Without this, Gradle auto-adds junit-platform-launcher at a version
+        // that may not match junit-platform-engine, causing:
+        // "OutputDirectoryProvider not available; probably due to unaligned versions..."
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+        testCompileOnly("jakarta.annotation:jakarta.annotation-api:${jakartaAnnotationVersion}") // for the module-info resolution
+        testCompileOnly("com.github.spotbugs:spotbugs-annotations:${spotbugsVersion}")
         mockitoAgent("org.mockito:mockito-core:${mockitoVersion}") {
             isTransitive = false
         }
@@ -128,7 +139,7 @@ subprojects {
         java {
             target("src/main/java/**/*.java", "src/test/java/**/*.java")
             googleJavaFormat("1.35.0").aosp()
-            indentWithSpaces()
+            leadingTabsToSpaces()
             importOrder()
             removeUnusedImports()
             trimTrailingWhitespace()
