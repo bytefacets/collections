@@ -68,7 +68,7 @@ subprojects {
     extra.apply {
         set("logbackVersion", "1.6.2")       // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
         set("slfApiVersion", "2.0.18")        // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-        set("spotbugsVersion", "4.10.3")
+        set("spotbugsVersion", "4.10.4")
     }
 
     val spotbugsVersion = extra["spotbugsVersion"] as String
