@@ -66,7 +66,7 @@ subprojects {
     project.version = project.parent?.version!!
 
     extra.apply {
-        set("logbackVersion", "1.6.2")       // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+        set("logbackVersion", "1.6.3")       // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
         set("slfApiVersion", "2.0.18")        // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
         set("spotbugsVersion", "4.10.4")
     }
