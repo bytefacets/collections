@@ -77,7 +77,7 @@ subprojects {
     val junitVersion = "5.13.4"
     val hamcrestVersion = "2.2"
     val mockitoVersion = "5.23.0" // https://mvnrepository.com/artifact/org.mockito/mockito-core
-    val jakartaAnnotationVersion = "2.1.1"
+    val jakartaAnnotationVersion = "3.0.0"
 
     val mockitoAgent = configurations.create("mockitoAgent")
     dependencies {
